@@ -54,17 +54,17 @@ namespace assignment
 
 
             //获取属性信息
-            string attribute = textBox3.Text;
-            GISAttribute oneattribute = new GISAttribute();
-            oneattribute.AddValue(attribute);
+            //string attribute = textBox3.Text;
+            //GISAttribute oneattribute = new GISAttribute();
+            //oneattribute.AddValue(attribute);
 
             //新建一个GISFeature 并添加到features数组中
-            GISFeature onefeature = new GISFeature(oneline, oneattribute);
+            GISFeature onefeature = new GISFeature(oneline, null);
             features.Add(onefeature);
 
             //画出这个GISFeature
             Graphics graphics = this.CreateGraphics();
-            onefeature.draw(graphics, true, 0);
+            onefeature.draw(graphics, false, 0); //显然此处不画属性
             //参数分别是画笔 是否绘制属性 属性列表values的索引
         }
 
@@ -78,17 +78,17 @@ namespace assignment
 
 
             //获取属性信息
-            string attribute = textBox3.Text;
-            GISAttribute oneattribute = new GISAttribute();
-            oneattribute.AddValue(attribute);
+            //string attribute = textBox3.Text;
+            //GISAttribute oneattribute = new GISAttribute();
+            //oneattribute.AddValue(attribute);
 
             //新建一个GISFeature 并添加到features数组中
-            GISFeature onefeature = new GISFeature(onepoly, oneattribute);
+            GISFeature onefeature = new GISFeature(onepoly, null);
             features.Add(onefeature);
 
             //画出这个GISFeature
             Graphics graphics = this.CreateGraphics();
-            onefeature.draw(graphics, true, 0);
+            onefeature.draw(graphics, false, 0);
             //参数分别是画笔 是否绘制属性 属性列表values的索引
 
         }
@@ -121,6 +121,30 @@ namespace assignment
             else
                 MessageBox.Show(features[findid].getAttribute(0).ToString());
 
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //获取属性信息
+            string attribute = textBox3.Text;
+            GISAttribute oneattribute = new GISAttribute();
+            oneattribute.AddValue(attribute);
+
+            GISLine oneline = new GISLine(linevertexes); //创建line作为空间对象找到endnode作为属性绘制的位置
+            Graphics graphics = this.CreateGraphics();
+            oneattribute.draw(graphics, oneline.endNode(), 0);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            //获取属性信息
+            string attribute = textBox3.Text;
+            GISAttribute oneattribute = new GISAttribute();
+            oneattribute.AddValue(attribute);
+
+            GISPolygon onepoly = new GISPolygon(polyvertexes);
+            Graphics graphics = this.CreateGraphics();
+            oneattribute.draw(graphics, onepoly.endNode(), 0);
         }
     }
 }
