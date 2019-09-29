@@ -11,10 +11,13 @@ using MYGIS;
 
 namespace Lesson_3
 {
+
     public partial class Form1 : Form
     {
+        //List<GISFeature> randgisfeature = new List<GISFeature>();
         List<GISFeature> features = new List<GISFeature>();
         GISView view = null;
+        public static bool IsMercator = true;
         public Form1()
         {
             InitializeComponent();
@@ -114,7 +117,7 @@ namespace Lesson_3
             //根据新的view在窗口上绘制数组中的每个空间对象
             for (int i = 0; i < features.Count; i++)
             {
-                features[i].draw(graphics, view, true, 0);
+                features[i].draw(graphics, view, false, 0);
             }
             graphics.Dispose();
         }
@@ -153,13 +156,13 @@ namespace Lesson_3
         {
             int number = Convert.ToInt32(tbrandom.Text);
             Random randobj = new Random();
-            List<GISFeature> randgisfeature = new List<GISFeature>();
-            randgisfeature = GetRandomFeature(randobj, randgisfeature, number);
+            
+            features = GetRandomFeature(randobj, features, number);
             //画出所有的gisfeature
             Graphics graphics = this.CreateGraphics();
-            foreach (GISFeature onefeature in randgisfeature)
+            foreach (GISFeature onefeature in features)
             {
-                onefeature.draw(graphics, view, true, 1);
+                onefeature.draw(graphics, view, false, 1);
             }
             //onefeature.draw(graphics, view, true, 0);
 
@@ -170,8 +173,8 @@ namespace Lesson_3
             //根据指定数量创造随机gisfeature对象
             for (int i = 0; i < number; i++)
             {
-                int lon = randobj.Next(-180, 180);
-                int lat = randobj.Next(-85, 85);
+                double lon = 360*randobj.NextDouble()-180;
+                double lat = 170*randobj.NextDouble()-75;
                 GISVertex onevertex = new GISVertex(lon, lat);
                 GISPoint onepoint = new GISPoint(onevertex);
                 //获取属性信息

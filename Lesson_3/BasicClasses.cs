@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Lesson_3;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+//using Lesson_3.Form1;
 
 namespace MYGIS
 {
@@ -55,6 +57,7 @@ namespace MYGIS
         public override void draw(Graphics graphics, GISView view)
         {
             Point screenpoint = view.ToScreenPoint(centroid);
+            //Console.WriteLine(screenpoint.X.ToString()+screenpoint.Y.ToString());
             graphics.FillEllipse(new SolidBrush(Color.Red),
                 new Rectangle(screenpoint.X - 3, screenpoint.Y - 3, 6, 6));
         }
@@ -151,27 +154,45 @@ namespace MYGIS
         }
         public double getMinX()
         {
-            return bottomleft.x;
+            if (Form1.IsMercator)
+                return bottomleft.mercatorx;
+            else
+                return bottomleft.x;
         }
         public double getMaxX()
         {
-            return upright.x;
+            if (Form1.IsMercator)
+                return upright.mercatorx;
+            else
+                return upright.x;
         }
         public double getMinY()
         {
-            return bottomleft.y;
+            if (Form1.IsMercator)
+                return bottomleft.mercatory;
+            else
+                return bottomleft.y;
         }
         public double getMaxY()
         {
-            return upright.y;
+            if (Form1.IsMercator)
+                return upright.mercatory;
+            else
+                return upright.y;
         }
         public double getWidth()
         {
-            return upright.x - bottomleft.x;
+            if (Form1.IsMercator)
+                return upright.mercatorx - bottomleft.mercatorx;
+            else
+                return upright.x - bottomleft.x;
         }
         public double getHeight()
         {
-            return upright.y - bottomleft.y;
+            if (Form1.IsMercator)
+                return upright.mercatory - bottomleft.mercatory;
+            else
+                return upright.y - bottomleft.y;
         }
     }
 
@@ -209,9 +230,19 @@ namespace MYGIS
         }
         public Point ToScreenPoint(GISVertex onevertex)//地图点到屏幕点转换
         {
-            double ScreenX = (onevertex.x - MapMinX) / ScaleX;
-            double ScreenY = WinH - (onevertex.y - MapMinY) / ScaleY;
-            return new Point((int)ScreenX, (int)ScreenY);
+            if (Form1.IsMercator)
+            {
+                double ScreenX = (onevertex.mercatorx - MapMinX) / ScaleX;
+                double ScreenY = WinH - (onevertex.mercatory - MapMinY) / ScaleY;
+                Console.WriteLine(ScreenX.ToString() + ScreenY.ToString());
+                return new Point((int)ScreenX, (int)ScreenY);
+            }
+            else
+            {
+                double ScreenX = (onevertex.x - MapMinX) / ScaleX;
+                double ScreenY = WinH - (onevertex.y - MapMinY) / ScaleY;
+                return new Point((int)ScreenX, (int)ScreenY);
+            }
         }
         public GISVertex ToMapVertex(Point point)//屏幕点到地图点转换
         {
