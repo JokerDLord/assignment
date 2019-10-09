@@ -31,7 +31,7 @@ namespace MYGIS
         public void Lonlat2Mercator() //节点的经纬度转墨卡托投影地理坐标方法
         {
             double x = this.x * 20037508.34 / 180;
-            double y = Math.Log(Math.Tan((90 + this.y) * Math.PI / 360)) / (Math.PI / 180);
+            double y = Math.Log(Math.Tan((45 + this.y / 2) / 180 * Math.PI));
             this.mercatorx = x;
             this.mercatory = y * 20037508.34 / 180;
         }

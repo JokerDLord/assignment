@@ -146,6 +146,7 @@
             this.tbMinX.Name = "tbMinX";
             this.tbMinX.Size = new System.Drawing.Size(136, 21);
             this.tbMinX.TabIndex = 9;
+            this.tbMinX.Text = "-180";
             this.tbMinX.TextChanged += new System.EventHandler(this.TextBox4_TextChanged);
             // 
             // label6
@@ -165,6 +166,7 @@
             this.tbMinY.Name = "tbMinY";
             this.tbMinY.Size = new System.Drawing.Size(135, 21);
             this.tbMinY.TabIndex = 11;
+            this.tbMinY.Text = "-85";
             this.tbMinY.TextChanged += new System.EventHandler(this.TextBox5_TextChanged);
             // 
             // label7
@@ -184,6 +186,7 @@
             this.tbMaxX.Name = "tbMaxX";
             this.tbMaxX.Size = new System.Drawing.Size(137, 21);
             this.tbMaxX.TabIndex = 13;
+            this.tbMaxX.Text = "180";
             this.tbMaxX.TextChanged += new System.EventHandler(this.TextBox6_TextChanged);
             // 
             // tbMaxY
@@ -193,6 +196,7 @@
             this.tbMaxY.Name = "tbMaxY";
             this.tbMaxY.Size = new System.Drawing.Size(137, 21);
             this.tbMaxY.TabIndex = 15;
+            this.tbMaxY.Text = "85";
             this.tbMaxY.TextChanged += new System.EventHandler(this.TextBox7_TextChanged);
             // 
             // label8

@@ -83,11 +83,13 @@ namespace Lesson_3
             //判断是否存在空间对象
 
             Point nearestpoint = view.ToScreenPoint(features[id].spatialpart.centroid);
-            int screendistance = ScreenDistance(e.Location,nearestpoint);
+            /*int screendistance = ScreenDistance(e.Location,nearestpoint);
             if (screendistance < 5)
             {
                 MessageBox.Show("该空间对象的属性是 " + features[id].getAttribute(0).ToString());
-            }            
+            }  */
+            if (ScreenDistance(e.Location, nearestpoint) < 5)
+                MessageBox.Show(features[id].getAttribute(0).ToString());
         }
 
         private int ScreenDistance(Point _P1, Point _P2)
@@ -159,12 +161,15 @@ namespace Lesson_3
             
             features = GetRandomFeature(randobj, features, number);
             //画出所有的gisfeature
+            /*
             Graphics graphics = this.CreateGraphics();
             foreach (GISFeature onefeature in features)
             {
                 onefeature.draw(graphics, view, false, 1);
             }
             //onefeature.draw(graphics, view, true, 0);
+            */
+            UpdateMap();
 
         }
 
@@ -174,7 +179,7 @@ namespace Lesson_3
             for (int i = 0; i < number; i++)
             {
                 double lon = 360*randobj.NextDouble()-180;
-                double lat = 170*randobj.NextDouble()-75;
+                double lat = 170*randobj.NextDouble()-85;
                 GISVertex onevertex = new GISVertex(lon, lat);
                 GISPoint onepoint = new GISPoint(onevertex);
                 //获取属性信息
