@@ -170,6 +170,25 @@ namespace MYGIS
             }
             return count % 2 != 0;
         }
+
+        public double Distance(GISVertex vertex)//找到点到多边形的最短距离
+        {
+            double distance = Double.MaxValue;
+            for (int i = 0; i < Vertexes.Count - 1; i++)
+            {
+                distance = Math.Min(GISTools.PointToSegment
+                    (Vertexes[i], Vertexes[i + 1], vertex), distance);
+            }
+            //最后闭合曲线 最后一个line也参加比较
+            distance = Math.Min(GISTools.PointToSegment(Vertexes[Vertexes.Count], Vertexes[0],vertex), distance);
+            return distance;
+        }
+
+        //计算节点到多边形重心的距离
+        public double CenterDistance(GISVertex vertex)
+        {
+            return centroid.Distance(vertex);
+        }
     }
 
 
@@ -1233,7 +1252,7 @@ namespace MYGIS
             int id = -1;
             for (int i = 0; i < features.Count; i++) //找最近的feature判断是否有效
             {
-                if (MinSelectExtent.IntersectOrNot(features[i].spatialpart.extent) == false) continue;
+                //if (MinSelectExtent.IntersectOrNot(features[i].spatialpart.extent) == false) continue;
                 GISLine line = (GISLine)(features[i].spatialpart);
                 double dist = line.Distance(vertex);
                 //Console.WriteLine("dist:" + dist);
@@ -1276,18 +1295,19 @@ namespace MYGIS
             {
                 //先粗选点与多边形extent是否有交集
                 //Console.WriteLine("1");
-                if (MinSelectExtent.IntersectOrNot(features[i].spatialpart.extent) == false) continue;
+                //if (MinSelectExtent.IntersectOrNot(features[i].spatialpart.extent) == false) continue;
                 GISPolygon polygon = (GISPolygon)(features[i].spatialpart);
                 if (polygon.include(vertex))
                     SelectedFeatures.Add(features[i]);
             }
+            Console.WriteLine(SelectedFeatures.Count);
             return (SelectedFeatures.Count > 0) ? SelectResult.OK : SelectResult.TooFar;
         }
     }
 
     public class GISConst
     {
-        public static double MinScreenDistance = 5;
+        public static double MinScreenDistance = 50;
         //点的颜色和半径
         public static Color PointColor = Color.Pink;
         public static int PointSize = 3;
@@ -1305,5 +1325,5 @@ namespace MYGIS
         //被选中面的填充颜色
         public static Color SelectedPolygonFillColor = Color.Yellow;
     }
-
+    //8周作业 完成函数XLineSpatial.Distance以及XPolygonSpatial.Distance
 }
