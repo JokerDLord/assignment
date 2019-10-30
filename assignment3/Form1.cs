@@ -111,6 +111,17 @@ namespace Lesson_11
             if (layer == null) return;
             GISVertex v = view.ToMapVertex(e.Location);
             Console.WriteLine("mapvertex @" + v.x.ToString() +"|"+ v.y.ToString()); //此处鼠标点到地图点的转换???
+            //创建点选粗选矩形
+            GISSelect s = new GISSelect();
+            GISExtent MinSelectExtent = s.BuildExtent(v, view);
+            Point bottomleft = view.ToScreenPoint(MinSelectExtent.bottomleft);
+            Point upleft = view.ToScreenPoint(new GISVertex(MinSelectExtent.bottomleft.x, MinSelectExtent.upright.y));
+            Point upright = view.ToScreenPoint(MinSelectExtent.upright);
+            Point bottomright = view.ToScreenPoint(new GISVertex(MinSelectExtent.upright.x, MinSelectExtent.bottomleft.y));
+            Point[] points= new Point[]{ bottomleft, upleft, upright, bottomright };
+            Graphics graphics = this.CreateGraphics();
+            graphics.DrawPolygon(new Pen(GISConst.PolygonBoundaryColor, GISConst.PolygonBoundaryWidth), points);
+
             SelectResult sr = layer.Select(v, view);
             if (sr == SelectResult.OK)
             {

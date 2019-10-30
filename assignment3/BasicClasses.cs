@@ -345,8 +345,7 @@ namespace MYGIS
         //判断两个空间对象是否相交 排除所有不相交情况就得到相交
         public bool IntersectOrNot(GISExtent extent)
         {
-            return !(getMaxX() < extent.getMinX() || getMinX() > extent.getMaxX() ||
-                getMaxY() < extent.getMinY() || getMinY() > extent.getMaxY());
+            return !((getMaxX() < extent.getMinX()) || (getMinX() > extent.getMaxX()) ||(getMaxY() < extent.getMinY()) || (getMinY() > extent.getMaxY()));
         }
     }
 
@@ -789,9 +788,9 @@ namespace MYGIS
                 if (_vertexes[i].x < minx) minx = _vertexes[i].x;
                 if (_vertexes[i].y < miny) miny = _vertexes[i].y;
                 if (_vertexes[i].x > maxx) maxx = _vertexes[i].x;
-                if (_vertexes[i].y < maxy) maxy = _vertexes[i].y;
+                if (_vertexes[i].y > maxy) maxy = _vertexes[i].y;
             }
-            return new GISExtent(minx, miny, maxx, maxy);
+            return new GISExtent(minx, maxx, miny, maxy);
         }
 
         public static double CalculateLength(List<GISVertex> _vertexes)
@@ -1196,6 +1195,7 @@ namespace MYGIS
             Point p0 = view.ToScreenPoint(vertex);
             Point p1 = new Point(p0.X + (int)GISConst.MinScreenDistance, p0.Y + (int)GISConst.MinScreenDistance);
             Point p2 = new Point(p0.X - (int)GISConst.MinScreenDistance, p0.Y - (int)GISConst.MinScreenDistance);
+            //graphics.DrawPolygon(new Pen(GISConst.PolygonBoundaryColor, GISConst.PolygonBoundaryWidth), points);
             GISVertex gmp1 = view.ToMapVertex(p1);
             GISVertex gmp2 = view.ToMapVertex(p2);
             return new GISExtent(gmp1.x, gmp2.x, gmp1.y, gmp2.y);
@@ -1219,7 +1219,7 @@ namespace MYGIS
             }
             Console.WriteLine("id:"+ id.ToString());//测试id是否存在
             if (id!=-1)
-                Console.WriteLine(features[id].spatialpart.centroid.x.ToString() + "|" + features[id].spatialpart.centroid.y.ToString());
+                Console.WriteLine("exist!:"+features[id].spatialpart.centroid.x.ToString() + "|" + features[id].spatialpart.centroid.y.ToString());
             Console.WriteLine("鼠标点到元素点在地图上相距"+distance.ToString());//此处的distance是features中最近的元素点到鼠标点映射到地图上点的距离
             //精选
             if (id == -1)//经过遍历 没有与minsextent相交的点则跳出
@@ -1252,7 +1252,7 @@ namespace MYGIS
             int id = -1;
             for (int i = 0; i < features.Count; i++) //找最近的feature判断是否有效
             {
-                //if (MinSelectExtent.IntersectOrNot(features[i].spatialpart.extent) == false) continue;
+                if (MinSelectExtent.IntersectOrNot(features[i].spatialpart.extent) == false) continue;
                 GISLine line = (GISLine)(features[i].spatialpart);
                 double dist = line.Distance(vertex);
                 //Console.WriteLine("dist:" + dist);
@@ -1273,7 +1273,7 @@ namespace MYGIS
             else
             {
                 double screendistance = view.ToScreenDistance(distance);
-                if (screendistance < GISConst.MinScreenDistance)
+                if (screendistance <= GISConst.MinScreenDistance)
                 {
                     SelectedFeature = features[id];
                     return SelectResult.OK;
@@ -1295,7 +1295,7 @@ namespace MYGIS
             {
                 //先粗选点与多边形extent是否有交集
                 //Console.WriteLine("1");
-                //if (MinSelectExtent.IntersectOrNot(features[i].spatialpart.extent) == false) continue;
+                if (MinSelectExtent.IntersectOrNot(features[i].spatialpart.extent) == false) continue;
                 GISPolygon polygon = (GISPolygon)(features[i].spatialpart);
                 if (polygon.include(vertex))
                     SelectedFeatures.Add(features[i]);
@@ -1307,7 +1307,7 @@ namespace MYGIS
 
     public class GISConst
     {
-        public static double MinScreenDistance = 50;
+        public static double MinScreenDistance = 10;
         //点的颜色和半径
         public static Color PointColor = Color.Pink;
         public static int PointSize = 3;
