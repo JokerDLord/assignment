@@ -125,5 +125,124 @@ namespace XGIS
             FormAttribute form = new FormAttribute(layer);
             form.Show();
         }
+
+        private void Label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DeleteField_Click(object sender, EventArgs e)
+        {
+            string fieldname = textBox_del.Text;
+            for (int i = layer.Fields.Count-1; i >= 0; i--)
+            {
+                if (layer.Fields[i].name == fieldname)
+                {
+                    layer.Fields.Remove(layer.Fields[i]);
+                    //删除layer每个feature要素对应被删字段的值
+                    int atrlength = layer.Features[0].Attribute.Values.Count;
+                    foreach (XFeature feature in layer.Features)
+                    {
+                        if (feature.Attribute.Values.Count != atrlength) continue;//如果已经修改过feature的属性则继续下一个层循环
+                        feature.Attribute.Values.RemoveAt(i);//删除对应字段的属性值
+                    }
+                    //layer.Features[0].Attribute.deleteValue(i);
+                    break;
+                }
+                
+            }
+            FormAttribute form = new FormAttribute(layer);
+            form.Show();
+            MessageBox.Show(fieldname + " is successfully deleted from the layer's field");
+        }
+
+        private void TextBox_delete_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FormXGIS_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddField_Click(object sender, EventArgs e)
+        {
+            string fieldname = textBox_add.Text;
+            XField addfield = new XField(Type.GetType("System.String"), fieldname);//默认为string类型
+            layer.Fields.Add(addfield);
+            //增加layer每个feature要素对应需要增加字段的值
+            int atrlength = layer.Features[0].Attribute.Values.Count;
+            foreach (XFeature feature in layer.Features)
+            {
+                if (feature.Attribute.Values.Count != atrlength) continue;//如果已经修改过feature的属性则继续下一个层循环
+                feature.Attribute.Values.Add(null);//增加对应字段的属性值 初始为null
+            }
+            FormAttribute form = new FormAttribute(layer);
+            form.Show();
+            MessageBox.Show(fieldname + " is successfully added into the layer's field");
+        }
+
+        private void ChangeFieldName_Click(object sender, EventArgs e)
+        {
+            string oldfieldname = textBox_oldField.Text;
+            string newfieldname = textBox_newField.Text;
+            for (int i = layer.Fields.Count - 1; i >= 0; i--)
+            {
+                if (layer.Fields[i].name == oldfieldname)
+                {
+                    layer.Fields[i].name = newfieldname;
+                }
+            }
+            FormAttribute form = new FormAttribute(layer);
+            form.Show();
+            MessageBox.Show("field " + oldfieldname + " is successfully change to " + newfieldname);
+        }
+
+        private void TextBox_add_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void Moveforward_Click(object sender, EventArgs e)
+        {
+            string fieldname = textBox_movefield.Text;
+            for (int i = layer.Fields.Count - 1; i >= 0; i--)
+            {
+                if (layer.Fields[i].name == fieldname)
+                {
+                    int transfield = i - 1;
+                    if (sender == moveforward)
+                    {
+                        transfield = i - 1;
+                    }
+                    else if (sender == moveback)
+                    {
+                        transfield = i + 1;
+                    }
+                    //交换字段名
+                    string t = layer.Fields[i].name;
+                    layer.Fields[i].name = layer.Fields[transfield].name;
+                    layer.Fields[transfield].name = t;
+
+                    Object attrpre = null;//layer.Features[0].Attribute.Values[i];
+                    foreach (XFeature feature in layer.Features)
+                    {
+                        if (feature.Attribute.Values[i] != attrpre) //如果属性还未进行移动交换
+                        {
+                            Object to = feature.Attribute.Values[i];
+                            feature.Attribute.Values[i] = feature.Attribute.Values[transfield];
+                            feature.Attribute.Values[transfield] = to;
+                        }
+                        attrpre = feature.Attribute.Values[i];
+                    }
+                    break;//一定要跳出循环
+                }
+            }
+
+            FormAttribute form = new FormAttribute(layer);
+            form.Show();
+
+        }
     }
 }

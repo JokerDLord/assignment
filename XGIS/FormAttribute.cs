@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace XGIS
 {
+    //删除 添加 改名 更改顺序
     public partial class FormAttribute : Form
     {
         public FormAttribute(XLayer _Layer)

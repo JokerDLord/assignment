@@ -637,7 +637,7 @@ namespace XGIS
 
     public class XAttribute
     {
-        ArrayList Values = new ArrayList();
+        public ArrayList Values = new ArrayList();
         public void AddValue(object _Object)
         {
             Values.Add(_Object);
@@ -645,6 +645,11 @@ namespace XGIS
         public object GetValue(int _Index)
         {
             return Values[_Index];
+        }
+
+        public void deleteValue(int i)
+        {
+            Values.RemoveAt(i);
         }
         public void Draw(Graphics _Graphics, XView _View, XVertex _Location, int _Index)
         {
