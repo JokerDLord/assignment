@@ -1147,7 +1147,7 @@ namespace XGIS
                 for (int fcount = 0; fcount < layer.Fields.Count; fcount++)
                 {
                     writer.Write("\"" + layer.Fields[fcount].name + "\": \"" +
-                        (string)(feature.Attribute.Values[fcount]) + "\"");
+                        (feature.Attribute.Values[fcount]).ToString() + "\"");
                     if (fcount != layer.Fields.Count - 1) writer.Write(",");
                 }
 
@@ -1184,7 +1184,7 @@ namespace XGIS
                         + (((XPolygonSpatial)feature.Spatial).AllVertexes[i].Y).ToString() + "]");
                         if (i < ((XPolygonSpatial)feature.Spatial).AllVertexes.Count - 1) writer.Write(",");
                     }
-                    writer.Write("[");
+                    writer.Write("]");
                 }
 
                 writer.Write("]");
