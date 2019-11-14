@@ -1040,6 +1040,7 @@ namespace XGIS
             {
                 List<XVertex> _Vertexes = new List<XVertex>();//记录feature的节点
                 string featuretype = (string)(flst[index]["geometry"]["type"]);//读取对象类型 包括Point LineString Polygon
+                Newtonsoft.Json.Linq.JToken properties = flst[index]["properties"];//读取对象的所有字段与属性
 
                 //if (featuretype == "Polygon") flst[index]["geometry"]["coordinates"][0]
                 if (featuretype == "Point")//如果是点对象 则按点对象的数据结构进行处理
@@ -1055,7 +1056,7 @@ namespace XGIS
                     else if (lat < miny) miny = lat;
 
                     _Vertexes.Add(new XVertex(lon, lat));
-                    
+                    ReadJSONField(properties, pointlayer);//右边返回一个Fields泛型赋给左边图层字段
                 }
 
                 if (featuretype == "LineString")//如果是线对象 则按线对象的数据结构进行处理
@@ -1072,6 +1073,7 @@ namespace XGIS
                         else if (lat < miny) miny = lat;
 
                         _Vertexes.Add(new XVertex(lon, lat));
+                        ReadJSONField(properties, linelayer);//右边返回一个Fields泛型赋给左边图层字段
                     }
                 }
 
@@ -1091,6 +1093,7 @@ namespace XGIS
                             else if (lat < miny) miny = lat;
 
                             _Vertexes.Add(new XVertex(lon, lat));
+                            ReadJSONField(properties, polygonlayer);//右边返回一个Fields泛型赋给左边图层字段
                         }
                     }
                 }
@@ -1111,7 +1114,7 @@ namespace XGIS
                     XFeature onefeature = new XFeature(new XPolygonSpatial(_Vertexes), null);//暂时默认无属性
                     polygonlayer.AddFeature(onefeature);//给线图层添加对象
                 }
-                
+
             }
             //Console.WriteLine(minx.ToString(), miny.ToString(), maxx.ToString(), maxy.ToString());
             XExtent layersextent = new XExtent(new XVertex(minx, miny), new XVertex(maxx, maxy));
@@ -1126,6 +1129,97 @@ namespace XGIS
             sr.Close();
             return layers;
         }
+
+        public void WriteJSONFile(XLayer layer, string filename)
+        {
+            FileStream fsr = new FileStream(filename, FileMode.Create);
+            StreamWriter writer = new StreamWriter(fsr);
+            writer.Write("{");
+            writer.Write("\"type\": \"" + "FeatureCollection" + "\",");
+            writer.Write("\"features\": [");
+            //开始写入所有的feature
+            foreach (XFeature feature in layer.Features)
+            {
+                writer.Write("{");
+                writer.Write("\"type\": \"" + "Features" + "\",");
+                //写字段与属性
+                writer.Write("\"properties\": {");
+                for (int fcount = 0; fcount < layer.Fields.Count; fcount++)
+                {
+                    writer.Write("\"" + layer.Fields[fcount].name + "\": \"" +
+                        (string)(feature.Attribute.Values[fcount]) + "\"");
+                    if (fcount != layer.Fields.Count - 1) writer.Write(",");
+                }
+
+                writer.Write("},");
+                //写地理信息
+                writer.Write("\"geometry\": {");
+                string ftype = null;
+                if ((int)layer.ShapeType == 1)  ftype = "Point";
+                else if ((int)layer.ShapeType == 3) ftype = "LineString";
+                else if ((int)layer.ShapeType == 5) ftype = "Polygon";
+
+                writer.Write("\"type\": \"" + ftype + "\",");
+                writer.Write("\"coordinates\": [");
+                if ((int)layer.ShapeType == 1)//如果是点，则按照写点坐标的方式写
+                {
+                    writer.Write((feature.Spatial.Centroid.X).ToString() + ","
+                        + (feature.Spatial.Centroid.Y).ToString());
+                }
+                else if ((int)layer.ShapeType == 3)//如果是线，则按照写线中点坐标的方式写
+                {
+                    for (int i = 0; i < ((XLineSpatial)feature.Spatial).AllVertexes.Count; i++)
+                    {
+                        writer.Write("["+(((XLineSpatial)feature.Spatial).AllVertexes[i].X).ToString() + ","
+                        + (((XLineSpatial)feature.Spatial).AllVertexes[i].Y).ToString()+"]");
+                        if (i < ((XLineSpatial)feature.Spatial).AllVertexes.Count - 1) writer.Write(",");
+                    }
+                }
+                else if ((int)layer.ShapeType == 5)//如果是面，则按照写面中点坐标的方式写
+                {
+                    writer.Write("[");
+                    for (int i = 0; i < ((XPolygonSpatial)feature.Spatial).AllVertexes.Count; i++)
+                    {
+                        writer.Write("[" + (((XPolygonSpatial)feature.Spatial).AllVertexes[i].X).ToString() + ","
+                        + (((XPolygonSpatial)feature.Spatial).AllVertexes[i].Y).ToString() + "]");
+                        if (i < ((XPolygonSpatial)feature.Spatial).AllVertexes.Count - 1) writer.Write(",");
+                    }
+                    writer.Write("[");
+                }
+
+                writer.Write("]");
+
+                writer.Write("}");
+
+                writer.Write("}");
+                if(feature != layer.Features[layer.Features.Count-1]) writer.Write(",");
+            }
+
+            writer.Write("]");
+            writer.Write("}");
+            writer.Close();
+            fsr.Close();
+        }
+
+        void ReadJSONField(Newtonsoft.Json.Linq.JToken properties,XLayer layer)
+        {
+            if (properties!=null)
+            {
+                foreach (Newtonsoft.Json.Linq.JProperty fa in properties)
+                {
+                    //Newtonsoft.Json.Linq.JProperty fieldname = (Newtonsoft.Json.Linq.JProperty)fa.ElementAt(0);
+                    //var fieldname = (string)fa.ElementAt(0);
+                    string name = fa.Name;
+                    XField newfield = new XField(typeof(String), name);
+                    if (!(layer.Fields.Contains(newfield)))//图层若不存在该field则加入该field
+                    {
+                        layer.Fields.Add(newfield);
+                    }
+                }
+            }
+            
+        }
+
     }
 
 }

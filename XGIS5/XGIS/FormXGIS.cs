@@ -186,5 +186,14 @@ namespace XGIS
             view.UpdateExtent(JSONLayers[0].Extent);
             UpdateMap();
         }
+
+        private void BWriteJSON_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            if (sfd.ShowDialog() != DialogResult.OK) return;
+            XGeoJson gj = new XGeoJson();
+            gj.WriteJSONFile(layer, sfd.FileName+".json");
+            MessageBox.Show("完成");
+        }
     }
 }

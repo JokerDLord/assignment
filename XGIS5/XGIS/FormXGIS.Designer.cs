@@ -40,6 +40,7 @@
             this.bWriteMyFile = new System.Windows.Forms.Button();
             this.bReadMyFile = new System.Windows.Forms.Button();
             this.BOpenJSON = new System.Windows.Forms.Button();
+            this.bWriteJSON = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // bFullExtent
@@ -162,11 +163,22 @@
             this.BOpenJSON.UseVisualStyleBackColor = true;
             this.BOpenJSON.Click += new System.EventHandler(this.BOpenJSON_Click);
             // 
+            // bWriteJSON
+            // 
+            this.bWriteJSON.Location = new System.Drawing.Point(12, 106);
+            this.bWriteJSON.Name = "bWriteJSON";
+            this.bWriteJSON.Size = new System.Drawing.Size(130, 23);
+            this.bWriteJSON.TabIndex = 90;
+            this.bWriteJSON.Text = "写入JSON";
+            this.bWriteJSON.UseVisualStyleBackColor = true;
+            this.bWriteJSON.Click += new System.EventHandler(this.BWriteJSON_Click);
+            // 
             // FormXGIS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(948, 679);
+            this.Controls.Add(this.bWriteJSON);
             this.Controls.Add(this.BOpenJSON);
             this.Controls.Add(this.bOpenAttribute);
             this.Controls.Add(this.bOpenShapeFile);
@@ -199,6 +211,7 @@
         private System.Windows.Forms.Button bWriteMyFile;
         private System.Windows.Forms.Button bReadMyFile;
         private System.Windows.Forms.Button BOpenJSON;
+        private System.Windows.Forms.Button bWriteJSON;
     }
 }
 
