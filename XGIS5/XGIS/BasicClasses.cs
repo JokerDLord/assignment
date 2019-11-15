@@ -327,7 +327,8 @@ namespace XGIS
     {
         point = 1,
         line = 3,
-        polygon = 5
+        polygon = 5,
+        mix=7
     };
 
 
@@ -1141,7 +1142,7 @@ namespace XGIS
             foreach (XFeature feature in layer.Features)
             {
                 writer.Write("{");
-                writer.Write("\"type\": \"" + "Features" + "\",");
+                writer.Write("\"type\": \"" + "Feature" + "\",");
                 //写字段与属性
                 writer.Write("\"properties\": {");
                 for (int fcount = 0; fcount < layer.Fields.Count; fcount++)
