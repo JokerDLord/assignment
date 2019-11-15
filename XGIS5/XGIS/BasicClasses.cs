@@ -328,7 +328,7 @@ namespace XGIS
         point = 1,
         line = 3,
         polygon = 5,
-        mix=7
+        mix = 7
     };
 
 
@@ -1060,7 +1060,7 @@ namespace XGIS
                     ReadJSONField(properties, pointlayer);//右边返回一个Fields泛型赋给左边图层字段
                 }
 
-                if (featuretype == "LineString")//如果是线对象 则按线对象的数据结构进行处理
+                else if (featuretype == "LineString")//如果是线对象 则按线对象的数据结构进行处理
                 {
                     foreach (var location in flst[index]["geometry"]["coordinates"])
                     {
