@@ -202,5 +202,10 @@ namespace XGIS
             XVertex v = view.ToMapVertex(e.Location);
             toolStripStatusLabel2mouselocation.Text = "mouse pointer@" + v.X.ToString() + "|" + v.Y.ToString();
         }
+
+        private void ToolStripStatusLabel2mouselocation_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

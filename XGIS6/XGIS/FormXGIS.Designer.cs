@@ -178,6 +178,7 @@
             this.toolStripStatusLabel2mouselocation.Name = "toolStripStatusLabel2mouselocation";
             this.toolStripStatusLabel2mouselocation.Size = new System.Drawing.Size(105, 17);
             this.toolStripStatusLabel2mouselocation.Text = "mouse pointer@";
+            this.toolStripStatusLabel2mouselocation.Click += new System.EventHandler(this.ToolStripStatusLabel2mouselocation_Click);
             this.toolStripStatusLabel2mouselocation.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ToolStripStatusLabel2mouselocation_MouseMove);
             // 
             // FormXGIS
