@@ -20,6 +20,11 @@ namespace XGIS
         BufferedGraphicsContext backWindow;
         BufferedGraphics backMap;
 
+        //计时器
+        DateTime pretime;
+        DateTime lattime;
+        TimeSpan counter;
+
         public FormXGIS()
         {
             InitializeComponent();
@@ -87,7 +92,7 @@ namespace XGIS
         private void UpdateMap()
         {
             //计时器
-            DateTime pretime = System.DateTime.Now;
+            pretime = System.DateTime.Now;
             //先清空之前占用的绘图资源
             if (backMap != null)
             {
@@ -105,8 +110,8 @@ namespace XGIS
             layer.Draw(graphics, view);
             //把绘图内容搬到前端
             Invalidate();
-            DateTime lattime = System.DateTime.Now;
-            TimeSpan counter = lattime.Subtract(pretime);
+            lattime = System.DateTime.Now;
+            counter = lattime.Subtract(pretime);
             toolStripStatusLabel1counter.Text = "Display Operation Time:" + counter.ToString();
         }
 
@@ -180,6 +185,9 @@ namespace XGIS
         {
             if (backMap != null)
                 backMap.Render(e.Graphics);
+            //lattime = System.DateTime.Now;
+            //TimeSpan counter = lattime.Subtract(pretime);
+            //toolStripStatusLabel1counter.Text = "Display Operation Time:" + counter.ToString();
 
         }
 
