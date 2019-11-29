@@ -15,6 +15,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "assignment5-XGIS", "XGIS5\X
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "assignment6-XGIS", "XGIS6\XGIS\assignment6-XGIS.csproj", "{EF336D44-F4AE-47D0-A420-B9864BB5A4EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "assignment7-XGIS", "XGIS_Lesson_10\XGIS\XGIS\assignment7-XGIS.csproj", "{D5A3DA14-6AD3-476E-84DA-7FD6D2B3D211}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "assignment7-XGIS-lzt", "XGIS_Lesson_10lzt\XGIS\XGIS\assignment7-XGIS-lzt.csproj", "{B125D508-641B-470E-A124-46C2CD87C3F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "assignment8", "XGIS_Lesson_11\XGIS\XGIS\assignment8.csproj", "{E2A9AAC4-94BB-493D-A1DA-60492563A092}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +51,18 @@ Global
 		{EF336D44-F4AE-47D0-A420-B9864BB5A4EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF336D44-F4AE-47D0-A420-B9864BB5A4EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF336D44-F4AE-47D0-A420-B9864BB5A4EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5A3DA14-6AD3-476E-84DA-7FD6D2B3D211}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5A3DA14-6AD3-476E-84DA-7FD6D2B3D211}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5A3DA14-6AD3-476E-84DA-7FD6D2B3D211}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5A3DA14-6AD3-476E-84DA-7FD6D2B3D211}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B125D508-641B-470E-A124-46C2CD87C3F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B125D508-641B-470E-A124-46C2CD87C3F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B125D508-641B-470E-A124-46C2CD87C3F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B125D508-641B-470E-A124-46C2CD87C3F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2A9AAC4-94BB-493D-A1DA-60492563A092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2A9AAC4-94BB-493D-A1DA-60492563A092}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2A9AAC4-94BB-493D-A1DA-60492563A092}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2A9AAC4-94BB-493D-A1DA-60492563A092}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
