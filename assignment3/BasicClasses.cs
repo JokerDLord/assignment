@@ -31,7 +31,7 @@ namespace MYGIS
         public double Distance(GISVertex anothervertex)
         {
             return Math.Sqrt((x - anothervertex.x) * (x - anothervertex.x)
-                - (y - anothervertex.y) * (y - anothervertex.y));
+                + (y - anothervertex.y) * (y - anothervertex.y));
         }
         public void CopyFrom(GISVertex v)
         {
