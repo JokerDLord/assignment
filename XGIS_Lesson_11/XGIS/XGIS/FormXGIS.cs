@@ -246,7 +246,7 @@ namespace XGIS
             {
                 if (MouseSelect)
                 {
-                    //layer.SelectByClick(e.Location, view);
+                    layer.SelectByClick(e.Location, view);
                     UpdateMap();
                 }
             }
@@ -259,7 +259,26 @@ namespace XGIS
                 if (MouseSelect)
                 {
                     XExtent extent = new XExtent(v1, v2);
-                    layer.SelectByExtent(extent, Control.ModifierKeys == Keys.Control);
+                    //if (Control.ModifierKeys == Keys.Control)
+                    //{
+                    //    layer.PlusSelectByExtent(extent);
+                    //}
+                    //else
+                    //{
+                    //    layer.SelectByExtent(extent, Control.ModifierKeys == Keys.Shift,
+                    //        Control.ModifierKeys == Keys.Control);
+                    //}
+                    if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift &&
+                        (Control.ModifierKeys & Keys.Control) == Keys.Control)
+                    {
+                        layer.SelectByExtent(extent, true, true);
+                    }
+                    else
+                    {
+                        layer.SelectByExtent(extent, Control.ModifierKeys == Keys.Shift,
+                                                    Control.ModifierKeys == Keys.Control);
+                    }
+                    
                 }
                 else if (MouseZoomIn)
                 {

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows.Forms;
 
 namespace XGIS
 {
@@ -321,13 +322,97 @@ namespace XGIS
             return Features[i];
         }
 
-        internal void SelectByExtent(XExtent extent,
-            bool IntersestOrContain) //,bool EmptyOrNot
+        internal void SelectByExtent(XExtent extent, bool IntersestOrContain,
+            bool PlusSelect) //,bool EmptyOrNot
         {
-            foreach(XFeature f in Features)
-                f.Selected = IntersestOrContain?
-                    extent.IntersectWith(f.Spatial.Extent):
-                    extent.Contains(f.Spatial.Extent);
+            if (PlusSelect)
+            {
+                foreach (XFeature f in Features)
+                {
+                    if (f.Selected == true) continue;
+                    f.Selected = IntersestOrContain ?
+                        extent.IntersectWith(f.Spatial.Extent) :
+                        extent.Contains(f.Spatial.Extent);
+                }
+            }
+            else
+            {
+                foreach (XFeature f in Features)
+                {
+                    f.Selected = IntersestOrContain ?
+                            extent.IntersectWith(f.Spatial.Extent) :
+                            extent.Contains(f.Spatial.Extent);
+                }
+            }
+                
+        }
+
+        internal void SelectByClick(Point location, XView view)
+        {
+            XVertex v = view.ToMapVertex(location);
+            foreach (XFeature feature in Features)
+            {
+                feature.Selected = false;
+            }
+            if (ShapeType == SHAPETYPE.point)
+            {
+                Double distance = Double.MaxValue;
+                int id = -1;
+                for (int i = 0; i < Features.Count; i++)
+                {
+                    XPointSpatial point = (XPointSpatial)(Features[i].Spatial);
+                    double dist = point.Distance(v);
+                    if (dist < distance)
+                    {
+                        distance = dist;
+                        id = i;
+                    }
+                }
+                double scd = view.ToScreenDistance(v, Features[id].Spatial.Centroid);//转为屏幕距离
+                if (scd <= 5)
+                {
+                    Features[id].Selected = true;
+                }
+                else
+                {
+                    Console.WriteLine("屏幕距离为" + scd + ",选择无效!!");
+                }
+            }
+            else if (ShapeType == SHAPETYPE.line)
+            {
+                Double distance = Double.MaxValue;
+                int id = -1;
+                for (int i = 0; i < Features.Count; i++)
+                {
+                    XLineSpatial line = (XLineSpatial)(Features[i].Spatial);
+                    double dist = line.Distance(v);
+                    if (dist < distance)
+                    {
+                        distance = dist;
+                        id = i;
+                    }
+                }
+                double scd = view.ToScreenDistance(distance);//转为屏幕距离
+                if (scd <= 5)
+                {
+                    Features[id].Selected = true;
+                }
+                else
+                {
+                    Console.WriteLine("屏幕距离为" + scd + ",选择无效!!");
+                }
+            }
+            else if (ShapeType == SHAPETYPE.polygon)
+            {
+                for (int i = 0; i < Features.Count; i++)
+                {
+                    XPolygonSpatial polygon = (XPolygonSpatial)(Features[i].Spatial);
+                    if (polygon.Incude(v))
+                    {
+                        Features[i].Selected = true;
+                    }
+                }
+            }
         }
     }
 
@@ -659,6 +744,30 @@ namespace XGIS
             return Encoding.GetEncoding("gb2312").GetString(sbytes);
 
         }
+
+        internal static double PointToSegment(XVertex A, XVertex B, XVertex C)
+        {
+            double dot1 = Dot3Product(A, B, C);
+            if (dot1 > 0) return B.Distance(C);
+            double dot2 = Dot3Product(B, A, C);
+            if (dot2 > 0) return A.Distance(C);
+            double dist = Cross3Product(A, B, C) / A.Distance(B);
+            return Math.Abs(dist);
+        }
+
+        static double Dot3Product(XVertex A, XVertex B, XVertex C)
+        {
+            XVertex AB = new XVertex(B.X - A.X, B.Y - A.Y);//矢量也可以通过vertex来记录
+            XVertex BC = new XVertex(C.X - B.X, C.Y - B.Y);
+            return AB.X * BC.X + AB.Y * BC.Y;
+        }
+
+        static double Cross3Product(XVertex A, XVertex B, XVertex C)
+        {
+            XVertex AB = new XVertex(B.X - A.X, B.Y - A.Y);//矢量也可以通过vertex来记录
+            XVertex AC = new XVertex(C.X - A.X, C.Y - A.Y);
+            return VectorProduct(AB, AC);
+        }
     }
     public class XView
     {
@@ -784,6 +893,12 @@ namespace XGIS
             Update(CurrentMapExtent, MapWindowSize);
         }
 
+        internal double ToScreenDistance(XVertex v, XVertex centroid)
+        {
+            Point p1 = ToScreenPoint(v);
+            Point p2 = ToScreenPoint(centroid);
+            return Math.Sqrt((double)((p1.X - p2.X) * (p1.X - p2.X) + (p1.Y - p2.Y) * (p1.Y - p2.Y)));
+        }
     }
 
     public class XExtent
@@ -960,6 +1075,7 @@ namespace XGIS
         public abstract void Draw(Graphics _Graphics, XView _View, bool _Selected);
 
         internal abstract double Distance(XVertex onevertex);
+
     }
 
     public class XFeature
@@ -1025,6 +1141,11 @@ namespace XGIS
             bw.Write(X);
             bw.Write(Y);
         }
+
+        internal bool IsSame(XVertex vertex)
+        {
+            return X == vertex.X && Y == vertex.Y;
+        }
     }
     public class XPointSpatial:XSpatial
     {
@@ -1068,7 +1189,13 @@ namespace XGIS
 
         internal override double Distance(XVertex onevertex)
         {
-            throw new NotImplementedException();
+            double distance = Double.MaxValue;
+            for (int i = 0; i < AllVertexes.Count - 1; i++)
+            {
+                distance = Math.Min(XTools.PointToSegment
+                    (AllVertexes[i], AllVertexes[i + 1], onevertex), distance);
+            }
+            return distance;
         }
     }
 
@@ -1094,6 +1221,45 @@ namespace XGIS
         internal override double Distance(XVertex onevertex)
         {
             throw new NotImplementedException();
+        }
+
+        internal bool Incude(XVertex vertex)
+        {
+            int count = 0;
+            for (int i = 0; i < AllVertexes.Count; i++)
+            {
+                //满足点在线上直接返回false
+                if (AllVertexes[i].IsSame(vertex)) return false;
+                //由序号i和下一个点构成一条线段 可以算出下一个点next的公式
+                int next = (i + 1) % AllVertexes.Count;
+                //确定线段的坐标极值
+                double minx = Math.Min(AllVertexes[i].X, AllVertexes[next].X);
+                double miny = Math.Min(AllVertexes[i].Y, AllVertexes[next].Y);
+                double maxx = Math.Max(AllVertexes[i].X, AllVertexes[next].X);
+                double maxy = Math.Max(AllVertexes[i].Y, AllVertexes[next].Y);
+                //如果线段平行于射线
+                if (miny == maxy)
+                {
+                    //满足点在线上直接返回false
+                    if (miny == vertex.Y && vertex.X >= minx && vertex.X <= maxx) return false;
+                    //满足射线与线段平行无焦点且不再线段上
+                    else continue;
+                }
+                //点和线段都在坐标极值之外则不可能有交点
+                if (vertex.X > maxx || vertex.Y > maxy || vertex.Y < miny) continue;
+                //计算交点横坐标 纵坐标显然就为y
+                double x0 = AllVertexes[i].X + (vertex.Y - AllVertexes[i].Y) * (AllVertexes[next].X - AllVertexes[i].X) /
+                    (AllVertexes[next].Y - AllVertexes[i].Y);
+                //交点在射线反方向按照没有交点计算
+                if (x0 < vertex.X) continue;
+                //交点是vertex且在线段上，按照不包括处理(前面已经判断，但是此处仍要排除此种情况)
+                if (x0 == vertex.X) return false;
+                //射线穿过的下断点不计数
+                if (vertex.Y == miny) continue;
+                //其他情况交点数+1
+                count++;
+            }
+            return count % 2 != 0;
         }
     }
 
