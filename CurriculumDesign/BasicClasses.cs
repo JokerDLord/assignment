@@ -822,6 +822,7 @@ namespace MYGIS
             }
             else if (ThematicType == THEMATICTYPE.GradualColor)
             {
+                /////////////////////
                 for (int i = 0; i < Features.Count; i++)
                 {
                     GISThematic Thematic = Thematics[LevelIndexes[i]];
@@ -1045,8 +1046,34 @@ namespace MYGIS
             //确定专题地图属性字段
             ThematicFieldIndex = FieldIndex;
             ////////之前段落基本同分位数分级方法
+            
+            //找到分级线
+            List<double> levels = GISTools.FindGaps(values, gap);
+            LevelIndexes.Clear();
+            //找到每个对象的的分级归属
+            for (int i = 0; i < Features.Count; i++)
+            {
+                //这儿可直接调用whichlevels函数 注意等间隔法和分位数法仅仅是levels分级线的不同，其他是一样的
+                int levelindex = GISTools.WhichLevel(levels, values[i]);
+                LevelIndexes.Add(levelindex);
+            }
 
-            //获取属性的最小值 并依次统计属性位于每一个gap内的对象
+            //获取现有的制图类型
+            int size = 0;
+            Color outsidecolor = Color.Beige;
+            foreach (GISThematic Thematic in Thematics.Values)
+            {
+                outsidecolor = Thematic.OutsideColor;
+                size = Thematic.Size;
+                break;
+            }
+            Thematics.Clear();
+            for (int i = 0; i < levels.Count; i++)
+            {
+                //给每个分级设定一个thematic方法
+                Thematics.Add(i, new GISThematic(outsidecolor, size,
+                    GISTools.GetGradualColor(i, levels.Count - 1)));
+            }
             return true;
         }
     }
@@ -1246,6 +1273,28 @@ namespace MYGIS
             }
             //如果分割点多余分组数量，就去掉最后一个分割点???
             if (levels.Count > levelnumber) levels.RemoveAt(levels.Count - 1);
+            return levels;
+        }
+
+
+        //确定每个级别的界限
+        public static List<double> FindGaps(List<double> values, int gap)
+        {
+            if (values.Count == 0) return null;
+            List<double> levels = new List<double>();
+            ArrayList al = new ArrayList(values);
+            al.Sort();
+
+            double maxvalue = (double)al[al.Count-1];
+            double minvalue = (double)al[0];
+            levels.Add(minvalue);
+            //从最小值开始 每个一个gap设定一个间隔值
+            for (double i = minvalue; i < maxvalue; i += gap)
+            {
+                levels.Add(i);
+            }
+            levels.Add(maxvalue);//最后是从min到max的逐条gap记录
+
             return levels;
         }
 

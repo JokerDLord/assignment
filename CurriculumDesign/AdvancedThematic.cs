@@ -56,8 +56,35 @@ namespace MYGIS
             {
                 Console.WriteLine(layer.Fields[i].name);
                 cbattribute.Items.Add(layer.Fields[i].name);
+                cbattributedot.Items.Add(layer.Fields[i].name);
             }
             //cbattribute.SelectedIndex = (layer.Fields.Count > 0) ? layer.ThematicFieldIndex : -1;
+        }
+
+        private void Label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btchangedotdensity_Click(object sender, EventArgs e)
+        {
+            int dotdensity = Convert.ToInt32(tbdotdensity.Text);
+            int dotsize = Convert.ToInt32(tbdotsize.Text);
+            Color dotcolor = btdotfillcolor.BackColor;
+            
+        }
+
+
+        private void SettingColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog colord = new ColorDialog();
+            colord.Color = ((Button)sender).BackColor;
+            if (colord.ShowDialog() == DialogResult.OK)
+            {
+                //在打开的颜色对话框中设置颜色，并用新的颜色更新按钮背景
+                ((Button)sender).BackColor = colord.Color;
+                //Clicked(sender, e);
+            }
         }
     }
 }

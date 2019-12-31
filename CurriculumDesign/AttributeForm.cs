@@ -98,7 +98,7 @@ namespace MYGIS
         public DataGridViewRow SelectRowByID(int id)//判断该row的第一个cell是不是所需的id
         {
             foreach (DataGridViewRow row in dataGridView1.Rows)
-                if ((int)(row.Cells[0].Value) == id) return row;
+                if (Convert.ToInt32((row.Cells[0].Value)) == id) return row;
             return null;
         }
 
