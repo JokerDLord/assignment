@@ -750,7 +750,7 @@ namespace MYGIS
         public bool DrawAttributeOrNot = false;
         public int LabelIndex;
         public SHAPETYPE ShapeType;
-        List<GISFeature> Features = new List<GISFeature>(); //私有的 不宜改动
+        public List<GISFeature> Features = new List<GISFeature>(); //私有的 不宜改动
         public List<GISField> Fields;
         public List<GISFeature> Selection = new List<GISFeature>();
 
@@ -761,7 +761,7 @@ namespace MYGIS
         public THEMATICTYPE ThematicType;
         public Dictionary<Object, GISThematic> Thematics;
         public int ThematicFieldIndex;//专题地图相关属性字段序号
-
+        public GISThematic defaultThmatic;//设定一个默认的图层制图绘图方法，此用于点密度图层等的绘制
         public GISLayer(string _name, SHAPETYPE _shapetype, GISExtent _extent, List<GISField> _fields = null)
         {
             Name = _name;
@@ -829,6 +829,28 @@ namespace MYGIS
                     if (extent.IntersectOrNot(Features[i].spatialpart.extent))
                     {
                         Features[i].draw(graphics, view, DrawAttributeOrNot, LabelIndex, Thematic);
+                    }
+                }
+            }
+            else if (ThematicType == THEMATICTYPE.DotDensity)
+            {
+                //GISThematic thematic = defaultThmatic;
+                for (int i = 0; i < Features.Count; i++)
+                {
+                    if (extent.IntersectOrNot(Features[i].spatialpart.extent))
+                    {
+                        Features[i].draw(graphics, view, false, LabelIndex, defaultThmatic);
+                    }
+                }
+            }
+            else if (ThematicType == THEMATICTYPE.EqualSymbol)
+            {
+                for (int i = 0; i < Features.Count; i++)
+                {
+                    GISThematic Thematic = Thematics[i];
+                    if (extent.IntersectOrNot(Features[i].spatialpart.extent))
+                    {
+                        Features[i].draw(graphics, view, false, LabelIndex, Thematic);
                     }
                 }
             }
@@ -1075,6 +1097,69 @@ namespace MYGIS
                     GISTools.GetGradualColor(i, levels.Count - 1)));
             }
             return true;
+        }
+
+        //获取归一化后的属性数据
+        internal List<int> getNormalized(int selectedIndex, int dotdensity)
+        {
+            List<int> normalizations = new List<int>();
+            List<double> values = new List<double>();
+            //尝试把属性值转成double类型列表
+            try
+            {
+                for (int i = 0; i < Features.Count; i++)
+                {
+                    values.Add(Convert.ToDouble(Features[i].getAttribute(selectedIndex).ToString()));
+                }
+            }
+            //如果不成功，说明属性值为非数值类型的
+            catch
+            {
+                return null;
+            }
+            ArrayList temp = new ArrayList(values);
+            temp.Sort();
+
+            double maxvalue = (double)temp[temp.Count - 1];
+            double minvalue = (double)temp[0];
+            for (int i = 0; i < values.Count; i++)
+            {
+                //最大值最小值归一化并乘以一个权重
+                double weigh = ((values[i] - minvalue) / (maxvalue - minvalue)) * 20 * dotdensity;
+                if (weigh == 0) weigh = 1;//特殊情况特殊处理
+                normalizations.Add(Convert.ToInt32(weigh));
+            }
+            return normalizations;
+        }
+
+        internal List<int> getSymbolSize(int selectedIndex, int symbolsize, int cls)
+        {
+            List<int> sizes = new List<int>();
+            List<double> values = new List<double>();
+            //尝试把属性值转成double类型列表
+            try
+            {
+                for (int i = 0; i < Features.Count; i++)
+                {
+                    values.Add(Convert.ToDouble(Features[i].getAttribute(selectedIndex).ToString()));
+                }
+            }
+            //如果不成功，说明属性值为非数值类型的
+            catch
+            {
+                return null;
+            }
+            ArrayList temp = new ArrayList(values);
+            temp.Sort();
+
+            double maxvalue = (double)temp[temp.Count - 1];
+            double minvalue = (double)temp[0];
+            for (int i = 0; i < values.Count; i++)
+            {
+                double clssize = ((values[i] - minvalue) / (maxvalue - minvalue)) * cls + symbolsize;
+                sizes.Add(Convert.ToInt32(clssize));
+            }
+            return sizes;
         }
     }
     public class GISTools
@@ -1348,6 +1433,47 @@ namespace MYGIS
             return br;
         }
 
+        internal static List<GISFeature> MakeRandomDensityDot(GISLayer layer, int selectedIndex, List<int> normalizations)
+        {
+            List<GISFeature> dotpoints = new List<GISFeature>();
+            for (int i = 0; i < layer.Features.Count; i++)
+            {
+                //提取单个对象的extent 首先限定再extent内创建点
+                GISExtent extent = layer.Features[i].spatialpart.extent;
+                int count = 0;
+                Console.WriteLine(normalizations[i]);//debug
+                int seedx = 10 * (int)DateTime.Now.Ticks;
+                int seedy = 100 * (int)DateTime.Now.Ticks;
+                while (count < normalizations[i])
+                {
+                    //注意此处生成两个浮点数之间的随机数的方法 通过0-1之间的随机数确定随机生成的点的x y值
+                    Random rdx = new Random(seedx);
+                    double jaxx = rdx.NextDouble();
+                    double randomx = extent.getMinX() + (extent.getMaxX() - extent.getMinX()) * jaxx;
+                    Random rdy = new Random(seedy);
+                    double jaxy = rdy.NextDouble();                    
+                    double randomy = extent.getMinY() + (extent.getMaxY() - extent.getMinY()) * jaxy;
+
+                    //每次都更新一下随机数的种子
+                    int tx = seedx;
+                    int ty = seedy;
+                    Random seedxnew = new Random(tx);
+                    seedx = seedxnew.Next();
+                    Random seedynew = new Random(ty);
+                    seedy = seedynew.Next();
+
+                    GISVertex vertex = new GISVertex(randomx, randomy);
+                    //生成在polygon的extent内的点不一定会在polygon内，所以还需进行判断
+                    if (((GISPolygon)(layer.Features[i].spatialpart)).include(vertex))
+                    {
+                        count += 1;
+                        dotpoints.Add(new GISFeature(new GISPoint(vertex), null));
+                    }
+                }
+                
+            }
+            return dotpoints;
+        }
     }
     public class GISField
     {
@@ -1832,6 +1958,7 @@ namespace MYGIS
             return layer;
         }
 
+
         public void UpdateExtent()
         {
             Extent = null;
@@ -2015,6 +2142,6 @@ namespace MYGIS
     //专题地图类型
     public enum THEMATICTYPE
     {
-        UnifiedValue,UniqueValue,GradualColor
+        UnifiedValue,UniqueValue,GradualColor,EqualSymbol,DotDensity
     };
 }

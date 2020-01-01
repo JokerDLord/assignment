@@ -39,6 +39,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.cbattributedot = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -50,10 +52,23 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tbdotdensity = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.cbattributedot = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
+            this.cbattributeEsymbol = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.btchangeEsymbol = new System.Windows.Forms.Button();
+            this.btsymbolfillcolor = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.tbsymbolsize = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tbclass = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -152,6 +167,20 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.tbclass);
+            this.tabPage2.Controls.Add(this.label17);
+            this.tabPage2.Controls.Add(this.label18);
+            this.tabPage2.Controls.Add(this.label12);
+            this.tabPage2.Controls.Add(this.textBox2);
+            this.tabPage2.Controls.Add(this.cbattributeEsymbol);
+            this.tabPage2.Controls.Add(this.label11);
+            this.tabPage2.Controls.Add(this.label13);
+            this.tabPage2.Controls.Add(this.btchangeEsymbol);
+            this.tabPage2.Controls.Add(this.btsymbolfillcolor);
+            this.tabPage2.Controls.Add(this.label14);
+            this.tabPage2.Controls.Add(this.tbsymbolsize);
+            this.tabPage2.Controls.Add(this.label15);
+            this.tabPage2.Controls.Add(this.label16);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -182,6 +211,23 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "点密度图";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // cbattributedot
+            // 
+            this.cbattributedot.FormattingEnabled = true;
+            this.cbattributedot.Location = new System.Drawing.Point(138, 46);
+            this.cbattributedot.Name = "cbattributedot";
+            this.cbattributedot.Size = new System.Drawing.Size(170, 20);
+            this.cbattributedot.TabIndex = 37;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(50, 49);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 12);
+            this.label10.TabIndex = 36;
+            this.label10.Text = "专题属性";
             // 
             // label9
             // 
@@ -223,9 +269,9 @@
             // 
             // btdotfillcolor
             // 
-            this.btdotfillcolor.Location = new System.Drawing.Point(138, 183);
+            this.btdotfillcolor.Location = new System.Drawing.Point(138, 177);
             this.btdotfillcolor.Name = "btdotfillcolor";
-            this.btdotfillcolor.Size = new System.Drawing.Size(124, 21);
+            this.btdotfillcolor.Size = new System.Drawing.Size(124, 33);
             this.btdotfillcolor.TabIndex = 31;
             this.btdotfillcolor.UseVisualStyleBackColor = true;
             this.btdotfillcolor.Click += new System.EventHandler(this.SettingColor_Click);
@@ -279,22 +325,125 @@
             this.label2.TabIndex = 22;
             this.label2.Text = "点密度";
             // 
-            // cbattributedot
+            // cbattributeEsymbol
             // 
-            this.cbattributedot.FormattingEnabled = true;
-            this.cbattributedot.Location = new System.Drawing.Point(138, 46);
-            this.cbattributedot.Name = "cbattributedot";
-            this.cbattributedot.Size = new System.Drawing.Size(170, 20);
-            this.cbattributedot.TabIndex = 37;
+            this.cbattributeEsymbol.FormattingEnabled = true;
+            this.cbattributeEsymbol.Location = new System.Drawing.Point(130, 30);
+            this.cbattributeEsymbol.Name = "cbattributeEsymbol";
+            this.cbattributeEsymbol.Size = new System.Drawing.Size(170, 20);
+            this.cbattributeEsymbol.TabIndex = 50;
             // 
-            // label10
+            // label11
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(50, 49);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(53, 12);
-            this.label10.TabIndex = 36;
-            this.label10.Text = "专题属性";
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(42, 33);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(53, 12);
+            this.label11.TabIndex = 49;
+            this.label11.Text = "专题属性";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(281, 80);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(0, 12);
+            this.label13.TabIndex = 46;
+            // 
+            // btchangeEsymbol
+            // 
+            this.btchangeEsymbol.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btchangeEsymbol.Location = new System.Drawing.Point(130, 232);
+            this.btchangeEsymbol.Name = "btchangeEsymbol";
+            this.btchangeEsymbol.Size = new System.Drawing.Size(124, 31);
+            this.btchangeEsymbol.TabIndex = 45;
+            this.btchangeEsymbol.Text = "修改等比符号图";
+            this.btchangeEsymbol.UseVisualStyleBackColor = true;
+            this.btchangeEsymbol.Click += new System.EventHandler(this.BtchangeEsymbol_Click);
+            // 
+            // btsymbolfillcolor
+            // 
+            this.btsymbolfillcolor.Location = new System.Drawing.Point(130, 175);
+            this.btsymbolfillcolor.Name = "btsymbolfillcolor";
+            this.btsymbolfillcolor.Size = new System.Drawing.Size(124, 35);
+            this.btsymbolfillcolor.TabIndex = 44;
+            this.btsymbolfillcolor.UseVisualStyleBackColor = true;
+            this.btsymbolfillcolor.Click += new System.EventHandler(this.SettingColor_Click);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(30, 186);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(65, 12);
+            this.label14.TabIndex = 43;
+            this.label14.Text = "选择点颜色";
+            // 
+            // tbsymbolsize
+            // 
+            this.tbsymbolsize.Location = new System.Drawing.Point(130, 77);
+            this.tbsymbolsize.Name = "tbsymbolsize";
+            this.tbsymbolsize.Size = new System.Drawing.Size(124, 21);
+            this.tbsymbolsize.TabIndex = 42;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(66, 80);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(29, 12);
+            this.label15.TabIndex = 41;
+            this.label15.Text = "size";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(54, 80);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(0, 12);
+            this.label16.TabIndex = 40;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(302, 65);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(17, 12);
+            this.label12.TabIndex = 52;
+            this.label12.Text = "注";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(304, 80);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 103);
+            this.textBox2.TabIndex = 51;
+            this.textBox2.Text = "此处size是最小的符号的大小,分级数是指符号将被分成多少个级别";
+            // 
+            // tbclass
+            // 
+            this.tbclass.Location = new System.Drawing.Point(130, 125);
+            this.tbclass.Name = "tbclass";
+            this.tbclass.Size = new System.Drawing.Size(124, 21);
+            this.tbclass.TabIndex = 55;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(30, 128);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(65, 12);
+            this.label17.TabIndex = 54;
+            this.label17.Text = "符号分级数";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(54, 107);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(0, 12);
+            this.label18.TabIndex = 53;
             // 
             // AdvancedThematic
             // 
@@ -304,10 +453,13 @@
             this.Controls.Add(this.tabControl1);
             this.Name = "AdvancedThematic";
             this.Text = "AdvancedThematic";
+            this.Load += new System.EventHandler(this.AdvancedThematic_Load);
             this.Shown += new System.EventHandler(this.AdvancedThematic_Shown);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
@@ -340,5 +492,19 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ComboBox cbattributedot;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox cbattributeEsymbol;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button btchangeEsymbol;
+        private System.Windows.Forms.Button btsymbolfillcolor;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox tbsymbolsize;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox tbclass;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
     }
 }

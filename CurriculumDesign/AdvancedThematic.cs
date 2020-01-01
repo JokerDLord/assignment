@@ -57,13 +57,14 @@ namespace MYGIS
                 Console.WriteLine(layer.Fields[i].name);
                 cbattribute.Items.Add(layer.Fields[i].name);
                 cbattributedot.Items.Add(layer.Fields[i].name);
+                cbattributeEsymbol.Items.Add(layer.Fields[i].name);
             }
             //cbattribute.SelectedIndex = (layer.Fields.Count > 0) ? layer.ThematicFieldIndex : -1;
         }
 
         private void Label8_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void btchangedotdensity_Click(object sender, EventArgs e)
@@ -71,7 +72,31 @@ namespace MYGIS
             int dotdensity = Convert.ToInt32(tbdotdensity.Text);
             int dotsize = Convert.ToInt32(tbdotsize.Text);
             Color dotcolor = btdotfillcolor.BackColor;
-            
+            //获取归一化后的属性数据 作为每一个控件对象内点数量的权重
+            List<int> normalizations = layer.getNormalized(cbattributedot.SelectedIndex, dotdensity);
+            if (normalizations == null)
+            {
+                MessageBox.Show("基于该属性无法绘制点密度地图!!");
+                return;
+            }
+
+            //新建一个dotlayer，在点密度中的点将以一个点图层的形式显示出来
+            GISLayer dotlayer = new GISLayer("dotdensity", SHAPETYPE.point, layer.Extent);
+            dotlayer.Selectable = false;//设置为不可选择
+            dotlayer.ThematicType = THEMATICTYPE.DotDensity;//设置为点密度型专题地图
+            dotlayer.defaultThmatic = new GISThematic(dotcolor, dotsize, dotcolor);
+            List<GISFeature> dotpoints = GISTools.MakeRandomDensityDot(layer,
+                cbattributedot.SelectedIndex, normalizations);
+            dotlayer.Features = dotpoints;
+
+            //先移除之前已有的点密度图层
+            for (int i = Document.layers.Count-1; i > 0; i--)
+            {
+                if (Document.layers[i].Name == "dotdensity") Document.layers.RemoveAt(i);
+            }
+            Document.layers.Add(dotlayer);//将dotlayer添加到document中 在更新地图绘制时会自动绘制layers里面的所有图层
+            //更新地图绘制
+            Mapwindow.UpdateMap();
         }
 
 
@@ -85,6 +110,52 @@ namespace MYGIS
                 ((Button)sender).BackColor = colord.Color;
                 //Clicked(sender, e);
             }
+        }
+
+        private void AdvancedThematic_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtchangeEsymbol_Click(object sender, EventArgs e)
+        {
+            int symbolsize = Convert.ToInt32(tbsymbolsize.Text);
+            int cls = Convert.ToInt32(tbclass.Text);
+            Color symbolcolor = btsymbolfillcolor.BackColor;
+            List<int> sizes = layer.getSymbolSize(cbattributeEsymbol.SelectedIndex, symbolsize, cls);
+
+            //新建一个esymbollayer，在点密度中的点将以一个点图层的形式显示出来
+            GISLayer esymbollayer = new GISLayer("Esymbol", SHAPETYPE.point, layer.Extent);
+            esymbollayer.Selectable = false;//设置为不可选择
+            esymbollayer.ThematicType = THEMATICTYPE.EqualSymbol;//设置为等比变换型专题地图
+            //为esymbollayer中每一个对象设置一个thematic
+            for (int i = 0; i < layer.Features.Count; i++)
+            {
+                esymbollayer.Thematics.Add(i,new GISThematic(symbolcolor, sizes[i], symbolcolor));
+                Console.WriteLine(sizes[i]);
+            }
+
+            //创建symbols点对象，作为esymbollayer的features
+            //默认将符号放于polygon的重心位置
+            List<GISFeature> symbols = new List<GISFeature>();
+            for (int i = 0; i < layer.Features.Count; i++)
+            {
+                GISPolygon polygon = (GISPolygon)layer.Features[i].spatialpart;
+                GISVertex vertex = new GISVertex(polygon.centroid);
+                symbols.Add(new GISFeature(new GISPoint(vertex), null));
+            }
+
+            esymbollayer.Features = symbols;
+
+            //先移除之前已有的点密度图层
+            for (int i = Document.layers.Count - 1; i > 0; i--)
+            {
+                if (Document.layers[i].Name == "Esymbol") Document.layers.RemoveAt(i);
+            }
+            Document.layers.Add(esymbollayer);//将esymbollayer添加到document中 在更新地图绘制时会自动绘制layers里面的所有图层
+            //更新地图绘制
+            Mapwindow.UpdateMap();
+
         }
     }
 }
