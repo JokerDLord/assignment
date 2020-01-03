@@ -423,5 +423,19 @@ namespace MYGIS
             gisPanel1advanced.bitbackwindow = bitbackwindow;
             gisPanel1advanced.document = document;
         }
+
+        private void SaveMapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (bitbackwindow == null) return;
+            SaveFileDialog savefiledialog1 = new SaveFileDialog();
+            savefiledialog1.Filter = "Map Output (*." + "tiff" + ")|*." + "tiff";
+            savefiledialog1.FilterIndex = 1;
+            savefiledialog1.RestoreDirectory = false;
+            if (savefiledialog1.ShowDialog() == DialogResult.OK)
+            {
+                bitbackwindow.Save(savefiledialog1.FileName, System.Drawing.Imaging.ImageFormat.Tiff);
+                MessageBox.Show("Done! " + savefiledialog1.FileName + " saved!");
+            }
+        }
     }
 }

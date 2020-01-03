@@ -996,7 +996,7 @@ namespace MYGIS
         }
 
         public List<int> LevelIndexes = new List<int>();
-        public bool MakeGradualColor(int FieldIndex, int levelNumber, Color maxvcolor, Color minvcolor)
+        public bool MakeGradualColor(int FieldIndex, int levelNumber, Color maxvcolor, Color minvcolor, Color edgecolor)
         {
             List<double> values = new List<double>();
             //尝试把属性值转成double类型列表
@@ -1039,7 +1039,7 @@ namespace MYGIS
             Thematics.Clear();
             for (int i = 0; i < levelNumber; i++)
             {
-                Thematics.Add(i, new GISThematic(outsidecolor, size, 
+                Thematics.Add(i, new GISThematic(edgecolor, size, 
                     GISTools.GetGradualColor(i, levelNumber, maxvcolor, minvcolor)));
             }
             return true;
@@ -1047,7 +1047,7 @@ namespace MYGIS
         }
 
         //等间隔分级函数
-        internal bool MakeGradualColorByGap(int FieldIndex, int gap, Color maxvcolor, Color minvcolor)
+        internal bool MakeGradualColorByGap(int FieldIndex, int gap, Color maxvcolor, Color minvcolor, Color edgecolor)
         {
             
             List<double> values = new List<double>();
@@ -1081,7 +1081,7 @@ namespace MYGIS
                 LevelIndexes.Add(levelindex);
             }
 
-            //获取现有的制图类型
+            //获取现有的制图的一些设置(这部分其实可以不用了)
             int size = 0;
             Color outsidecolor = Color.Beige;
             foreach (GISThematic Thematic in Thematics.Values)
@@ -1161,6 +1161,58 @@ namespace MYGIS
                 sizes.Add(Convert.ToInt32(clssize));
             }
             return sizes;
+        }
+
+        internal bool MakeGradualColorBySD(int selectedIndex, Color maxvcolor, Color minvcolor, Color edgecolor)
+        {
+            List<double> values = new List<double>();
+            //尝试把属性值转成double类型列表
+            try
+            {
+                for (int i = 0; i < Features.Count; i++)
+                {
+                    values.Add(Convert.ToDouble(Features[i].getAttribute(ThematicFieldIndex).ToString()));
+                }
+            }
+            //如果不成功，说明属性值为非数值类型的
+            catch
+            {
+                return false;
+            }
+            //修改专题地图样式
+            ThematicType = THEMATICTYPE.GradualColor;
+            //确定专题地图属性字段
+            ThematicFieldIndex = selectedIndex;
+            ////////之前段落基本同分位数分级方法
+
+            //找到分级线
+            List<double> levels = GISTools.FindStdCls(values);
+            LevelIndexes.Clear();
+            //找到每个对象的的分级归属
+            for (int i = 0; i < Features.Count; i++)
+            {
+                //这儿可直接调用whichlevels函数 注意等间隔法和分位数法仅仅是levels分级线的不同，其他是一样的
+                int levelindex = GISTools.WhichLevel(levels, values[i]);
+                LevelIndexes.Add(levelindex);
+            }
+
+            //获取现有的制图的一些设置(这部分其实可以不用了)
+            int size = 0;
+            Color outsidecolor = Color.Beige;
+            foreach (GISThematic Thematic in Thematics.Values)
+            {
+                outsidecolor = Thematic.OutsideColor;
+                size = Thematic.Size;
+                break;
+            }
+            Thematics.Clear();
+            for (int i = 0; i < levels.Count; i++)
+            {
+                //给每个分级设定一个thematic方法
+                Thematics.Add(i, new GISThematic(edgecolor, size,
+                    GISTools.GetGradualColor(i, levels.Count - 1, maxvcolor, minvcolor)));
+            }
+            return true;
         }
     }
     public class GISTools
@@ -1496,6 +1548,37 @@ namespace MYGIS
                 return (GISPanel)bf.Deserialize(ms);//继续反序列化
             }
 
+        }
+
+        internal static List<double> FindStdCls(List<double> values)
+        {
+            if (values.Count == 0) return null;
+            List<double> levels = new List<double>();
+            ArrayList temp = new ArrayList(values);
+            temp.Sort();
+            double maxvalue = (double)temp[temp.Count - 1];
+            double minvalue = (double)temp[0];
+            //求平均值
+            double vmean = 0;
+            foreach (double i in temp) vmean += i;
+            vmean = vmean / temp.Count;
+            //求标准差
+            double RSS = 0;//剩余平方和
+            foreach (double v in values)
+            {
+                RSS += (v - vmean) * (v - vmean);
+            }
+            double Std = Math.Sqrt(RSS / values.Count);
+            Console.WriteLine(Std);
+            levels.Add(minvalue);
+            levels.Add(vmean - 2.5 * Std);
+            levels.Add(vmean - 1.5 * Std);
+            levels.Add(vmean - 0.5 * Std);
+            levels.Add(vmean + 0.5 * Std);
+            levels.Add(vmean + 1.5 * Std);
+            levels.Add(vmean + 2.5 * Std);
+            levels.Add(maxvalue);
+            return levels;
         }
     }
     public class GISField

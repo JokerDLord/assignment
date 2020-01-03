@@ -28,10 +28,11 @@ namespace MYGIS
         {
             Color maxvcolor = btmaxvcolor.BackColor;
             Color minvcolor = btminvcolor.BackColor;
+            Color edgecolor = btedgecolor.BackColor;
             //如果选择的是默认的分位数分级方法
             if (cbleveltype.SelectedIndex == 0)
             {
-                if (layer.MakeGradualColor(cbattribute.SelectedIndex, Int32.Parse(tblevelnumber.Text), maxvcolor, minvcolor) == false)
+                if (layer.MakeGradualColor(cbattribute.SelectedIndex, Int32.Parse(tblevelnumber.Text), maxvcolor, minvcolor,edgecolor) == false)
                 {
                     MessageBox.Show("基于该属性无法绘制分层设色地图!!");
                     return;
@@ -40,12 +41,21 @@ namespace MYGIS
             //如果选择的是等间隔分级方法
             else if (cbleveltype.SelectedIndex == 1)
             {
-                if (layer.MakeGradualColorByGap(cbattribute.SelectedIndex, Int32.Parse(tblevelnumber.Text), maxvcolor, minvcolor) == false)
+                if (layer.MakeGradualColorByGap(cbattribute.SelectedIndex, Int32.Parse(tblevelnumber.Text), maxvcolor, minvcolor, edgecolor) == false)
                 {
                     MessageBox.Show("基于该属性无法绘制等间隔的分层设色地图!!");
                     return;
                 }
 
+            }
+            //如果选择标准差分级方法
+            else if (cbleveltype.SelectedIndex == 2)
+            {
+                if(layer.MakeGradualColorBySD(cbattribute.SelectedIndex, maxvcolor, minvcolor, edgecolor) == false)
+                {
+                    MessageBox.Show("基于该属性无法绘制标准差法分层设色地图!!");
+                    return;
+                }
             }
 
             //更新地图绘制
@@ -141,7 +151,7 @@ namespace MYGIS
             //为esymbollayer中每一个对象设置一个thematic
             for (int i = 0; i < layer.Features.Count; i++)
             {
-                esymbollayer.Thematics.Add(i,new GISThematic(symbolcolor, sizes[i], symbolcolor));
+                esymbollayer.Thematics.Add(i,new GISThematic(Color.Black, sizes[i], symbolcolor));
                 Console.WriteLine(sizes[i]);
             }
 

@@ -75,6 +75,8 @@
             this.label21 = new System.Windows.Forms.Label();
             this.btmaxvcolor = new System.Windows.Forms.Button();
             this.btminvcolor = new System.Windows.Forms.Button();
+            this.label22 = new System.Windows.Forms.Label();
+            this.btedgecolor = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -87,7 +89,7 @@
             this.cbleveltype.Items.AddRange(new object[] {
             "分位数分级法(原默认方法)",
             "等范围分级法(Equal Interval)",
-            "自定义间隔法(Define Interval)"});
+            "标准差分级法(Standard Deviation)"});
             this.cbleveltype.Location = new System.Drawing.Point(168, 22);
             this.cbleveltype.Name = "cbleveltype";
             this.cbleveltype.Size = new System.Drawing.Size(148, 20);
@@ -115,6 +117,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.btedgecolor);
+            this.tabPage1.Controls.Add(this.label22);
             this.tabPage1.Controls.Add(this.btminvcolor);
             this.tabPage1.Controls.Add(this.btmaxvcolor);
             this.tabPage1.Controls.Add(this.label21);
@@ -138,7 +142,7 @@
             // btchangethematic
             // 
             this.btchangethematic.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btchangethematic.Location = new System.Drawing.Point(168, 203);
+            this.btchangethematic.Location = new System.Drawing.Point(168, 235);
             this.btchangethematic.Name = "btchangethematic";
             this.btchangethematic.Size = new System.Drawing.Size(170, 31);
             this.btchangethematic.TabIndex = 25;
@@ -473,7 +477,7 @@
             // preview
             // 
             this.preview.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.preview.Location = new System.Drawing.Point(35, 203);
+            this.preview.Location = new System.Drawing.Point(35, 235);
             this.preview.Name = "preview";
             this.preview.Size = new System.Drawing.Size(105, 31);
             this.preview.TabIndex = 26;
@@ -532,7 +536,7 @@
             // 
             // btmaxvcolor
             // 
-            this.btmaxvcolor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btmaxvcolor.BackColor = System.Drawing.Color.Black;
             this.btmaxvcolor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btmaxvcolor.Location = new System.Drawing.Point(168, 131);
             this.btmaxvcolor.Name = "btmaxvcolor";
@@ -550,6 +554,26 @@
             this.btminvcolor.TabIndex = 46;
             this.btminvcolor.UseVisualStyleBackColor = false;
             this.btminvcolor.Click += new System.EventHandler(this.SettingColor_Click);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(63, 202);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(77, 12);
+            this.label22.TabIndex = 47;
+            this.label22.Text = "设定边界颜色";
+            // 
+            // btedgecolor
+            // 
+            this.btedgecolor.BackColor = System.Drawing.Color.Black;
+            this.btedgecolor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btedgecolor.Location = new System.Drawing.Point(168, 196);
+            this.btedgecolor.Name = "btedgecolor";
+            this.btedgecolor.Size = new System.Drawing.Size(104, 24);
+            this.btedgecolor.TabIndex = 48;
+            this.btedgecolor.UseVisualStyleBackColor = false;
+            this.btedgecolor.Click += new System.EventHandler(this.SettingColor_Click);
             // 
             // AdvancedThematic
             // 
@@ -624,5 +648,7 @@
         private System.Windows.Forms.Button btmaxvcolor;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Button btedgecolor;
+        private System.Windows.Forms.Label label22;
     }
 }

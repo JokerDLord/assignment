@@ -291,7 +291,8 @@ namespace MYGIS
             else if (comboBox2.SelectedIndex == 2)
             {
                 //此处对makegradualcolor的更改
-                if (layer.MakeGradualColor(comboBox3.SelectedIndex, Int32.Parse(tblevelnumber.Text), Color.Black, Color.White) == false)
+                if (layer.MakeGradualColor(comboBox3.SelectedIndex, Int32.Parse(tblevelnumber.Text), 
+                    Color.Black, Color.White, Color.Black) == false)
                 {
                     MessageBox.Show("基于该属性无法绘制分层设色地图!!");
                     return;
