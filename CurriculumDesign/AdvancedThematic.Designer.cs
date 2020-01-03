@@ -38,6 +38,20 @@
             this.cbattribute = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tbclass = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.cbattributeEsymbol = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.btchangeEsymbol = new System.Windows.Forms.Button();
+            this.btsymbolfillcolor = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.tbsymbolsize = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.cbattributedot = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -52,20 +66,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tbdotdensity = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.cbattributeEsymbol = new System.Windows.Forms.ComboBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.btchangeEsymbol = new System.Windows.Forms.Button();
-            this.btsymbolfillcolor = new System.Windows.Forms.Button();
-            this.label14 = new System.Windows.Forms.Label();
-            this.tbsymbolsize = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.tbclass = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.preview = new System.Windows.Forms.Button();
+            this.previewes = new System.Windows.Forms.Button();
+            this.previewds = new System.Windows.Forms.Button();
+            this.gisPanel1advanced = new MYGIS.GISPanel();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.btmaxvcolor = new System.Windows.Forms.Button();
+            this.btminvcolor = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -79,7 +88,7 @@
             "分位数分级法(原默认方法)",
             "等范围分级法(Equal Interval)",
             "自定义间隔法(Define Interval)"});
-            this.cbleveltype.Location = new System.Drawing.Point(178, 22);
+            this.cbleveltype.Location = new System.Drawing.Point(168, 22);
             this.cbleveltype.Name = "cbleveltype";
             this.cbleveltype.Size = new System.Drawing.Size(148, 20);
             this.cbleveltype.TabIndex = 20;
@@ -87,7 +96,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 25);
+            this.label1.Location = new System.Drawing.Point(15, 25);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(125, 12);
             this.label1.TabIndex = 21;
@@ -101,11 +110,16 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(768, 425);
+            this.tabControl1.Size = new System.Drawing.Size(428, 355);
             this.tabControl1.TabIndex = 22;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.btminvcolor);
+            this.tabPage1.Controls.Add(this.btmaxvcolor);
+            this.tabPage1.Controls.Add(this.label21);
+            this.tabPage1.Controls.Add(this.label20);
+            this.tabPage1.Controls.Add(this.preview);
             this.tabPage1.Controls.Add(this.btchangethematic);
             this.tabPage1.Controls.Add(this.tblevelnumber);
             this.tabPage1.Controls.Add(this.label7);
@@ -116,7 +130,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(760, 399);
+            this.tabPage1.Size = new System.Drawing.Size(420, 329);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "分级设色地图(更多设置)";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -124,7 +138,7 @@
             // btchangethematic
             // 
             this.btchangethematic.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btchangethematic.Location = new System.Drawing.Point(156, 131);
+            this.btchangethematic.Location = new System.Drawing.Point(168, 203);
             this.btchangethematic.Name = "btchangethematic";
             this.btchangethematic.Size = new System.Drawing.Size(170, 31);
             this.btchangethematic.TabIndex = 25;
@@ -134,7 +148,7 @@
             // 
             // tblevelnumber
             // 
-            this.tblevelnumber.Location = new System.Drawing.Point(156, 91);
+            this.tblevelnumber.Location = new System.Drawing.Point(168, 91);
             this.tblevelnumber.Name = "tblevelnumber";
             this.tblevelnumber.Size = new System.Drawing.Size(170, 21);
             this.tblevelnumber.TabIndex = 25;
@@ -142,7 +156,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(21, 94);
+            this.label7.Location = new System.Drawing.Point(33, 94);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(107, 12);
             this.label7.TabIndex = 24;
@@ -151,7 +165,7 @@
             // cbattribute
             // 
             this.cbattribute.FormattingEnabled = true;
-            this.cbattribute.Location = new System.Drawing.Point(156, 55);
+            this.cbattribute.Location = new System.Drawing.Point(168, 55);
             this.cbattribute.Name = "cbattribute";
             this.cbattribute.Size = new System.Drawing.Size(170, 20);
             this.cbattribute.TabIndex = 23;
@@ -159,7 +173,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(45, 58);
+            this.label6.Location = new System.Drawing.Point(87, 58);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 12);
             this.label6.TabIndex = 22;
@@ -167,6 +181,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.previewes);
             this.tabPage2.Controls.Add(this.tbclass);
             this.tabPage2.Controls.Add(this.label17);
             this.tabPage2.Controls.Add(this.label18);
@@ -184,13 +199,134 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(760, 399);
+            this.tabPage2.Size = new System.Drawing.Size(420, 329);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "等比符号地图";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // tbclass
+            // 
+            this.tbclass.Location = new System.Drawing.Point(130, 125);
+            this.tbclass.Name = "tbclass";
+            this.tbclass.Size = new System.Drawing.Size(124, 21);
+            this.tbclass.TabIndex = 55;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(30, 128);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(65, 12);
+            this.label17.TabIndex = 54;
+            this.label17.Text = "符号分级数";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(54, 107);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(0, 12);
+            this.label18.TabIndex = 53;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(302, 65);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(17, 12);
+            this.label12.TabIndex = 52;
+            this.label12.Text = "注";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(304, 80);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 103);
+            this.textBox2.TabIndex = 51;
+            this.textBox2.Text = "此处size是最小的符号的大小,分级数是指符号将被分成多少个级别";
+            // 
+            // cbattributeEsymbol
+            // 
+            this.cbattributeEsymbol.FormattingEnabled = true;
+            this.cbattributeEsymbol.Location = new System.Drawing.Point(130, 30);
+            this.cbattributeEsymbol.Name = "cbattributeEsymbol";
+            this.cbattributeEsymbol.Size = new System.Drawing.Size(170, 20);
+            this.cbattributeEsymbol.TabIndex = 50;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(42, 33);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(53, 12);
+            this.label11.TabIndex = 49;
+            this.label11.Text = "专题属性";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(281, 80);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(0, 12);
+            this.label13.TabIndex = 46;
+            // 
+            // btchangeEsymbol
+            // 
+            this.btchangeEsymbol.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btchangeEsymbol.Location = new System.Drawing.Point(130, 232);
+            this.btchangeEsymbol.Name = "btchangeEsymbol";
+            this.btchangeEsymbol.Size = new System.Drawing.Size(124, 31);
+            this.btchangeEsymbol.TabIndex = 45;
+            this.btchangeEsymbol.Text = "修改等比符号图";
+            this.btchangeEsymbol.UseVisualStyleBackColor = true;
+            this.btchangeEsymbol.Click += new System.EventHandler(this.BtchangeEsymbol_Click);
+            // 
+            // btsymbolfillcolor
+            // 
+            this.btsymbolfillcolor.Location = new System.Drawing.Point(130, 175);
+            this.btsymbolfillcolor.Name = "btsymbolfillcolor";
+            this.btsymbolfillcolor.Size = new System.Drawing.Size(124, 35);
+            this.btsymbolfillcolor.TabIndex = 44;
+            this.btsymbolfillcolor.UseVisualStyleBackColor = true;
+            this.btsymbolfillcolor.Click += new System.EventHandler(this.SettingColor_Click);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(30, 186);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(65, 12);
+            this.label14.TabIndex = 43;
+            this.label14.Text = "选择点颜色";
+            // 
+            // tbsymbolsize
+            // 
+            this.tbsymbolsize.Location = new System.Drawing.Point(130, 77);
+            this.tbsymbolsize.Name = "tbsymbolsize";
+            this.tbsymbolsize.Size = new System.Drawing.Size(124, 21);
+            this.tbsymbolsize.TabIndex = 42;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(66, 80);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(29, 12);
+            this.label15.TabIndex = 41;
+            this.label15.Text = "size";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(54, 80);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(0, 12);
+            this.label16.TabIndex = 40;
+            // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.previewds);
             this.tabPage3.Controls.Add(this.cbattributedot);
             this.tabPage3.Controls.Add(this.label10);
             this.tabPage3.Controls.Add(this.label9);
@@ -207,7 +343,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(760, 399);
+            this.tabPage3.Size = new System.Drawing.Size(420, 329);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "点密度图";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -325,131 +461,103 @@
             this.label2.TabIndex = 22;
             this.label2.Text = "点密度";
             // 
-            // cbattributeEsymbol
+            // label19
             // 
-            this.cbattributeEsymbol.FormattingEnabled = true;
-            this.cbattributeEsymbol.Location = new System.Drawing.Point(130, 30);
-            this.cbattributeEsymbol.Name = "cbattributeEsymbol";
-            this.cbattributeEsymbol.Size = new System.Drawing.Size(170, 20);
-            this.cbattributeEsymbol.TabIndex = 50;
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(464, 12);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(53, 12);
+            this.label19.TabIndex = 37;
+            this.label19.Text = "预览窗口";
             // 
-            // label11
+            // preview
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(42, 33);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(53, 12);
-            this.label11.TabIndex = 49;
-            this.label11.Text = "专题属性";
+            this.preview.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.preview.Location = new System.Drawing.Point(35, 203);
+            this.preview.Name = "preview";
+            this.preview.Size = new System.Drawing.Size(105, 31);
+            this.preview.TabIndex = 26;
+            this.preview.Text = "预览";
+            this.preview.UseVisualStyleBackColor = true;
+            this.preview.Click += new System.EventHandler(this.Btchangethematic_Click);
             // 
-            // label13
+            // previewes
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(281, 80);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(0, 12);
-            this.label13.TabIndex = 46;
+            this.previewes.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.previewes.Location = new System.Drawing.Point(6, 232);
+            this.previewes.Name = "previewes";
+            this.previewes.Size = new System.Drawing.Size(105, 31);
+            this.previewes.TabIndex = 56;
+            this.previewes.Text = "预览";
+            this.previewes.UseVisualStyleBackColor = true;
+            this.previewes.Click += new System.EventHandler(this.BtchangeEsymbol_Click);
             // 
-            // btchangeEsymbol
+            // previewds
             // 
-            this.btchangeEsymbol.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btchangeEsymbol.Location = new System.Drawing.Point(130, 232);
-            this.btchangeEsymbol.Name = "btchangeEsymbol";
-            this.btchangeEsymbol.Size = new System.Drawing.Size(124, 31);
-            this.btchangeEsymbol.TabIndex = 45;
-            this.btchangeEsymbol.Text = "修改等比符号图";
-            this.btchangeEsymbol.UseVisualStyleBackColor = true;
-            this.btchangeEsymbol.Click += new System.EventHandler(this.BtchangeEsymbol_Click);
+            this.previewds.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.previewds.Location = new System.Drawing.Point(16, 233);
+            this.previewds.Name = "previewds";
+            this.previewds.Size = new System.Drawing.Size(105, 31);
+            this.previewds.TabIndex = 57;
+            this.previewds.Text = "预览";
+            this.previewds.UseVisualStyleBackColor = true;
+            this.previewds.Click += new System.EventHandler(this.btchangedotdensity_Click);
             // 
-            // btsymbolfillcolor
+            // gisPanel1advanced
             // 
-            this.btsymbolfillcolor.Location = new System.Drawing.Point(130, 175);
-            this.btsymbolfillcolor.Name = "btsymbolfillcolor";
-            this.btsymbolfillcolor.Size = new System.Drawing.Size(124, 35);
-            this.btsymbolfillcolor.TabIndex = 44;
-            this.btsymbolfillcolor.UseVisualStyleBackColor = true;
-            this.btsymbolfillcolor.Click += new System.EventHandler(this.SettingColor_Click);
+            this.gisPanel1advanced.BackColor = System.Drawing.Color.LightGray;
+            this.gisPanel1advanced.Location = new System.Drawing.Point(466, 34);
+            this.gisPanel1advanced.Name = "gisPanel1advanced";
+            this.gisPanel1advanced.Size = new System.Drawing.Size(324, 329);
+            this.gisPanel1advanced.TabIndex = 23;
             // 
-            // label14
+            // label20
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(30, 186);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(65, 12);
-            this.label14.TabIndex = 43;
-            this.label14.Text = "选择点颜色";
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(63, 137);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(77, 12);
+            this.label20.TabIndex = 27;
+            this.label20.Text = "设定大值颜色";
             // 
-            // tbsymbolsize
+            // label21
             // 
-            this.tbsymbolsize.Location = new System.Drawing.Point(130, 77);
-            this.tbsymbolsize.Name = "tbsymbolsize";
-            this.tbsymbolsize.Size = new System.Drawing.Size(124, 21);
-            this.tbsymbolsize.TabIndex = 42;
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(63, 170);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(77, 12);
+            this.label21.TabIndex = 28;
+            this.label21.Text = "设定低值颜色";
+            this.label21.Click += new System.EventHandler(this.Label21_Click);
             // 
-            // label15
+            // btmaxvcolor
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(66, 80);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(29, 12);
-            this.label15.TabIndex = 41;
-            this.label15.Text = "size";
+            this.btmaxvcolor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btmaxvcolor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btmaxvcolor.Location = new System.Drawing.Point(168, 131);
+            this.btmaxvcolor.Name = "btmaxvcolor";
+            this.btmaxvcolor.Size = new System.Drawing.Size(104, 24);
+            this.btmaxvcolor.TabIndex = 45;
+            this.btmaxvcolor.UseVisualStyleBackColor = false;
+            this.btmaxvcolor.Click += new System.EventHandler(this.SettingColor_Click);
             // 
-            // label16
+            // btminvcolor
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(54, 80);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(0, 12);
-            this.label16.TabIndex = 40;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(302, 65);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(17, 12);
-            this.label12.TabIndex = 52;
-            this.label12.Text = "注";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(304, 80);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 103);
-            this.textBox2.TabIndex = 51;
-            this.textBox2.Text = "此处size是最小的符号的大小,分级数是指符号将被分成多少个级别";
-            // 
-            // tbclass
-            // 
-            this.tbclass.Location = new System.Drawing.Point(130, 125);
-            this.tbclass.Name = "tbclass";
-            this.tbclass.Size = new System.Drawing.Size(124, 21);
-            this.tbclass.TabIndex = 55;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(30, 128);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(65, 12);
-            this.label17.TabIndex = 54;
-            this.label17.Text = "符号分级数";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(54, 107);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(0, 12);
-            this.label18.TabIndex = 53;
+            this.btminvcolor.BackColor = System.Drawing.Color.White;
+            this.btminvcolor.Location = new System.Drawing.Point(168, 164);
+            this.btminvcolor.Name = "btminvcolor";
+            this.btminvcolor.Size = new System.Drawing.Size(104, 24);
+            this.btminvcolor.TabIndex = 46;
+            this.btminvcolor.UseVisualStyleBackColor = false;
+            this.btminvcolor.Click += new System.EventHandler(this.SettingColor_Click);
             // 
             // AdvancedThematic
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(792, 449);
+            this.ClientSize = new System.Drawing.Size(802, 380);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.gisPanel1advanced);
             this.Controls.Add(this.tabControl1);
             this.Name = "AdvancedThematic";
             this.Text = "AdvancedThematic";
@@ -463,6 +571,7 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -506,5 +615,14 @@
         private System.Windows.Forms.TextBox tbclass;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
+        private GISPanel gisPanel1advanced;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Button preview;
+        private System.Windows.Forms.Button previewes;
+        private System.Windows.Forms.Button previewds;
+        private System.Windows.Forms.Button btminvcolor;
+        private System.Windows.Forms.Button btmaxvcolor;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label20;
     }
 }

@@ -14,6 +14,7 @@ namespace MYGIS
     {
         GISDocument Document;
         GISPanel Mapwindow;
+        GISPanel PreviewWindow;
         GISLayer layer;
         public AdvancedThematic(GISDocument _document, GISPanel mapwindow, GISLayer _layer)
         {
@@ -25,10 +26,12 @@ namespace MYGIS
 
         private void Btchangethematic_Click(object sender, EventArgs e)
         {
+            Color maxvcolor = btmaxvcolor.BackColor;
+            Color minvcolor = btminvcolor.BackColor;
             //如果选择的是默认的分位数分级方法
             if (cbleveltype.SelectedIndex == 0)
             {
-                if (layer.MakeGradualColor(cbattribute.SelectedIndex, Int32.Parse(tblevelnumber.Text)) == false)
+                if (layer.MakeGradualColor(cbattribute.SelectedIndex, Int32.Parse(tblevelnumber.Text), maxvcolor, minvcolor) == false)
                 {
                     MessageBox.Show("基于该属性无法绘制分层设色地图!!");
                     return;
@@ -37,7 +40,7 @@ namespace MYGIS
             //如果选择的是等间隔分级方法
             else if (cbleveltype.SelectedIndex == 1)
             {
-                if (layer.MakeGradualColorByGap(cbattribute.SelectedIndex, Int32.Parse(tblevelnumber.Text)) == false)
+                if (layer.MakeGradualColorByGap(cbattribute.SelectedIndex, Int32.Parse(tblevelnumber.Text), maxvcolor, minvcolor) == false)
                 {
                     MessageBox.Show("基于该属性无法绘制等间隔的分层设色地图!!");
                     return;
@@ -46,7 +49,9 @@ namespace MYGIS
             }
 
             //更新地图绘制
-            Mapwindow.UpdateMap();
+            if (sender.Equals(preview)) PreviewWindow.UpdateMap();
+            else if (sender.Equals(btchangethematic)) Mapwindow.UpdateMap();
+                
         }
 
         private void AdvancedThematic_Shown(object sender, EventArgs e)
@@ -60,6 +65,10 @@ namespace MYGIS
                 cbattributeEsymbol.Items.Add(layer.Fields[i].name);
             }
             //cbattribute.SelectedIndex = (layer.Fields.Count > 0) ? layer.ThematicFieldIndex : -1;
+            //填充预览窗口
+            Mapwindow.CloneGP(gisPanel1advanced);
+            gisPanel1advanced.UpdateMap();
+            PreviewWindow = gisPanel1advanced;
         }
 
         private void Label8_Click(object sender, EventArgs e)
@@ -96,7 +105,8 @@ namespace MYGIS
             }
             Document.layers.Add(dotlayer);//将dotlayer添加到document中 在更新地图绘制时会自动绘制layers里面的所有图层
             //更新地图绘制
-            Mapwindow.UpdateMap();
+            if (sender.Equals(previewds)) PreviewWindow.UpdateMap();
+            else if (sender.Equals(btchangedotdensity)) Mapwindow.UpdateMap();
         }
 
 
@@ -154,7 +164,14 @@ namespace MYGIS
             }
             Document.layers.Add(esymbollayer);//将esymbollayer添加到document中 在更新地图绘制时会自动绘制layers里面的所有图层
             //更新地图绘制
-            Mapwindow.UpdateMap();
+            if (sender.Equals(previewes)) PreviewWindow.UpdateMap();
+            else if (sender.Equals(btchangeEsymbol)) Mapwindow.UpdateMap();
+            
+
+        }
+
+        private void Label21_Click(object sender, EventArgs e)
+        {
 
         }
     }

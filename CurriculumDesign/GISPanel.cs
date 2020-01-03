@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace MYGIS
 {
@@ -26,7 +28,7 @@ namespace MYGIS
         int MouseMovingY = 0;
 
         bool MouseOnMap = false;//用于确定up是接续前面down且都是在地图窗口中被激活的
-        public GISDocument document = new GISDocument();
+        GISDocument document = new GISDocument();
 
         public GISPanel()
         {
@@ -102,6 +104,7 @@ namespace MYGIS
 
             //UpdateStatusBar();
         }
+
 
         public void OpenAttributeWindow(GISLayer layer)
         {
@@ -408,5 +411,17 @@ namespace MYGIS
             //}
         }
 
+        private void GISPanel_Load(object sender, EventArgs e)
+        {
+            
+        }
+
+        //将gispanel中部分对象拷贝至另一个panel
+        internal void CloneGP(GISPanel gisPanel1advanced)
+        {
+            gisPanel1advanced.view = view;
+            gisPanel1advanced.bitbackwindow = bitbackwindow;
+            gisPanel1advanced.document = document;
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Data.OleDb;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
 namespace MYGIS
@@ -995,7 +996,7 @@ namespace MYGIS
         }
 
         public List<int> LevelIndexes = new List<int>();
-        public bool MakeGradualColor(int FieldIndex, int levelNumber)
+        public bool MakeGradualColor(int FieldIndex, int levelNumber, Color maxvcolor, Color minvcolor)
         {
             List<double> values = new List<double>();
             //尝试把属性值转成double类型列表
@@ -1026,7 +1027,7 @@ namespace MYGIS
                 LevelIndexes.Add(levelindex);
             }
             //获取目前的显示设置
-            Color outsidecolor = Color.Beige;
+            Color outsidecolor = Color.Black;
             int size = 0;
             foreach (GISThematic Thematic in Thematics.Values)
             {
@@ -1039,14 +1040,14 @@ namespace MYGIS
             for (int i = 0; i < levelNumber; i++)
             {
                 Thematics.Add(i, new GISThematic(outsidecolor, size, 
-                    GISTools.GetGradualColor(i, levelNumber)));
+                    GISTools.GetGradualColor(i, levelNumber, maxvcolor, minvcolor)));
             }
             return true;
 
         }
 
         //等间隔分级函数
-        internal bool MakeGradualColorByGap(int FieldIndex, int gap)
+        internal bool MakeGradualColorByGap(int FieldIndex, int gap, Color maxvcolor, Color minvcolor)
         {
             
             List<double> values = new List<double>();
@@ -1094,7 +1095,7 @@ namespace MYGIS
             {
                 //给每个分级设定一个thematic方法
                 Thematics.Add(i, new GISThematic(outsidecolor, size,
-                    GISTools.GetGradualColor(i, levels.Count - 1)));
+                    GISTools.GetGradualColor(i, levels.Count - 1, maxvcolor, minvcolor)));
             }
             return true;
         }
@@ -1394,10 +1395,18 @@ namespace MYGIS
             return levels.Count - 1;
         }
 
-        public static Color GetGradualColor(int levelindex, int levelnumber)
+        public static Color GetGradualColor(int levelindex, int levelnumber, Color maxvcolor, Color minvcolor)
         {
-            int colorlevel = (int)(255 - (float)levelindex / levelnumber * 255);
-            return Color.FromArgb(colorlevel, colorlevel, colorlevel);
+            int rmax = maxvcolor.R;
+            int gmax = maxvcolor.G;
+            int bmax = maxvcolor.B;
+            int rmin = minvcolor.R;
+            int gmin = minvcolor.G;
+            int bmin = minvcolor.B;
+            int colorlevelr = (int)(rmin + (float)levelindex / levelnumber * (rmax - rmin));
+            int colorlevelg = (int)(gmin + (float)levelindex / levelnumber * (gmax - gmin));
+            int colorlevelb = (int)(bmin + (float)levelindex / levelnumber * (bmax - bmin));
+            return Color.FromArgb(colorlevelr, colorlevelg, colorlevelb);
         }
 
         //正确的读取图层名
@@ -1473,6 +1482,20 @@ namespace MYGIS
                 
             }
             return dotpoints;
+        }
+
+        internal static GISPanel CloneGP<GISPanel>(GISPanel gispanel)
+        {
+            //创建二进制序列化对象
+            BinaryFormatter bf = new BinaryFormatter();
+            using (MemoryStream ms = new MemoryStream())//创建内存流
+            {
+                //将对象序列化到内存中
+                bf.Serialize(ms, gispanel);
+                ms.Position = default;//将内存流的位置设为0
+                return (GISPanel)bf.Deserialize(ms);//继续反序列化
+            }
+
         }
     }
     public class GISField
