@@ -1125,9 +1125,8 @@ namespace MYGIS
             double minvalue = (double)temp[0];
             for (int i = 0; i < values.Count; i++)
             {
-                //最大值最小值归一化并乘以一个权重
-                double weigh = ((values[i] - minvalue) / (maxvalue - minvalue)) * 20 * dotdensity;
-                if (weigh == 0) weigh = 1;//特殊情况特殊处理
+                //最大值最小值拉伸到0.1-1并乘以一个权重
+                double weigh = ((values[i] - minvalue) / (maxvalue - minvalue) * 0.9 + 0.1) * 20 * dotdensity;
                 normalizations.Add(Convert.ToInt32(weigh));
             }
             return normalizations;

@@ -416,7 +416,7 @@ namespace MYGIS
             
         }
 
-        //将gispanel中部分对象拷贝至另一个panel
+        //将gispanel中部分对象引用至另一个panel
         internal void CloneGP(GISPanel gisPanel1advanced)
         {
             gisPanel1advanced.view = view;

@@ -13,9 +13,9 @@ namespace MYGIS
     public partial class AdvancedThematic : Form
     {
         GISDocument Document;
-        GISPanel Mapwindow;
-        GISPanel PreviewWindow;
-        GISLayer layer;
+        GISPanel Mapwindow; //地图主窗口
+        GISPanel PreviewWindow; //预览窗口
+        GISLayer layer; //专题地图源图层
         public AdvancedThematic(GISDocument _document, GISPanel mapwindow, GISLayer _layer)
         {
             InitializeComponent();
